@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>母婴行业 · 全年节点规划</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #f5f6f8; color: #222; padding: 20px;
+  }
+  .container { max-width: 1480px; margin: 0 auto; }
+
+  h1 { text-align: center; font-size: 22px; margin-bottom: 4px; letter-spacing: 1px; }
+  .subtitle { text-align: center; color: #999; font-size: 13px; margin-bottom: 16px; }
+
+  .toolbar {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 14px; flex-wrap: wrap; gap: 10px;
+  }
+  .legend { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .legend-item {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 12px; padding: 2px 10px; border-radius: 12px; color: #fff;
+    white-space: nowrap;
+  }
+  .btn {
+    border: 1px solid #d0d4dc; background: #fff; border-radius: 6px;
+    padding: 6px 14px; cursor: pointer; font-size: 13px; font-family: inherit;
+  }
+  .btn:hover { background: #eef2f7; }
+  .btn-primary { background: #1a73e8; color: #fff; border-color: #1a73e8; }
+  .btn-primary:hover { background: #155cb8; }
+
+  /* ========= 甘特图主体 ========= */
+  .gantt-wrap {
+    background: #fff; border-radius: 10px;
+    box-shadow: 0 1px 6px rgba(0,0,0,.06); overflow: hidden;
+  }
+  .gantt-scroll { overflow-x: auto; }
+
+  /* Grid: 分类(80px) + 活动名(220px) + 12个月(1fr each) */
+  .gantt-grid {
+    display: grid;
+    grid-template-columns: 76px 240px repeat(12, 1fr);
+    min-width: 1280px;
+  }
+
+  /* --- 表头行 --- */
+  .header-cell {
+    background: #fafbfc;
+    border-bottom: 2px solid #e0e4ea;
+    border-right: 1px solid #f0f2f5;
+    padding: 10px 4px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: #555;
+    min-height: 38px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .header-cell:last-child { border-right: none; }
+
+  /* --- 分组标签（合并单元格） --- */
+  .group-label {
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700;
+    border-right: 1px solid #e8eaef;
+    border-bottom: 1px solid #e8eaef;
+    writing-mode: vertical-lr;
+    text-orientation: mixed;
+    letter-spacing: 4px;
+    padding: 10px 6px;
+  }
+  .group-label.时令节点 {
+    background: #fef3c7; color: #b45309;
+  }
+  .group-label.展会 {
+    background: #f3e8ff; color: #6b21a8;
+  }
+
+  /* --- 活动名称列 --- */
+  .name-cell {
+    display: flex; flex-direction: column; justify-content: center; gap: 3px;
+    border-right: 1px solid #e8eaef;
+    border-bottom: 1px solid #e8eaef;
+    padding: 6px 10px; font-size: 13px; background: #fff;
+    min-width: 0;
+  }
+  .name-cell .tag {
+    display: inline-block; padding: 1px 8px; border-radius: 8px;
+    font-size: 10px; font-weight: 700; color: #fff; white-space: nowrap;
+    margin-bottom: 2px; width: fit-content;
+  }
+  .tag-时令节点 { background: #f59e0b; }
+  .tag-展会 { background: #9333ea; }
+  .name-cell .act-name {
+    font-weight: 600; color: #222; line-height: 1.3;
+    cursor: pointer; word-break: break-all;
+  }
+  .name-cell .act-name[contenteditable="true"]:focus {
+    outline: 2px solid #ffd34d; background: #fff8d8; border-radius: 3px;
+  }
+  .name-cell .act-detail {
+    font-size: 10px; color: #999; line-height: 1.4;
+    cursor: pointer; word-break: break-all;
+  }
+  .name-cell .act-detail[contenteditable="true"]:focus {
+    outline: 2px solid #ffd34d; background: #fff8d8; border-radius: 3px;
+  }
+
+  /* --- 月份列（甘特区） --- */
+  .month-data-cell {
+    position: relative;
+    border-right: 1px solid #f0f2f5;
+    border-bottom: 1px solid #f0f2f5;
+    min-height: 72px;
+    background: #fff;
+  }
+  .month-data-cell:last-child { border-right: none; }
+
+  /* --- 平台子行 & 甘特条 --- */
+  .platform-row {
+    position: relative; height: 22px; margin: 2px 0;
+  }
+  .gantt-bar-seg {
+    position: absolute; height: 34px; border-radius: 8px;
+    cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
+    padding: 0 8px; font-size: 11px; font-weight: 500; color: #fff;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    transition: opacity .12s, transform .12s; z-index: 1;
+    line-height: 1.3;
+  }
+  .gantt-bar-sub {
+    font-size: 9px; font-weight: 400; opacity: 0.78;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    max-width: 100%;
+  }
+  .gantt-bar-seg:hover { opacity: 1 !important; z-index: 5; transform: scale(1.03); }
+
+  .bar-时令节点 { opacity: 0.88; }
+  .bar-展会 { opacity: 0.88; }
+
+  /* 打印 */
+  @media print {
+    body { background: #fff; padding: 0; }
+    .toolbar, .add-row-btn, .hint-text { display: none; }
+    .gantt-wrap { box-shadow: none; border-radius: 0; }
+    .month-data-cell { border-right: 1px solid #ddd; border-bottom: 1px solid #ddd; }
+    .name-cell { border-right: 1px solid #ddd; border-bottom: 1px solid #ddd; }
+    .gantt-grid { min-width: 100%; }
+  }
+
+  /* 弹窗 */
+  .detail-popup {
+    display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    background: #fff; border-radius: 12px; padding: 24px; box-shadow: 0 8px 40px rgba(0,0,0,.15);
+    z-index: 100; max-width: 500px; width: 90%;
+  }
+  .detail-popup.show { display: block; }
+  .detail-popup h3 { font-size: 16px; margin-bottom: 12px; }
+  .detail-popup .field { margin: 8px 0; font-size: 13px; }
+  .detail-popup .field b { display: inline-block; width: 70px; color: #666; }
+  .detail-popup .close-btn {
+    position: absolute; top: 10px; right: 14px; font-size: 20px;
+    background: none; border: none; cursor: pointer; color: #999;
+  }
+  .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.3); z-index: 99; }
+  .overlay.show { display: block; }
+
+  /* 底部 */
+  .add-row-btn {
+    text-align: center; padding: 10px; background: #fafbfc; border-top: 1px solid #ebeef2;
+  }
+  .add-row-btn button { background: #fff; border: 1px dashed #c8cdd5; color: #777; padding: 5px 16px; border-radius: 6px; cursor: pointer; }
+  .add-row-btn button:hover { background: #eef2f7; }
+  .hint-text { text-align: center; color: #bbb; font-size: 11px; margin-top: 14px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>母婴行业 · 全年节点规划</h1>
+<div class="subtitle">按活动分类 · 各平台活动一览（小店侧 / AMS / 抖音侧）</div>
+
+<div class="toolbar">
+  <div class="legend">
+    <span class="legend-item" style="background:#ec4899">小店侧</span>
+    <span class="legend-item" style="background:#0891b2">AMS</span>
+    <span class="legend-item" style="background:#1e1e1e">抖音侧</span>
+    <span class="legend-item" style="background:#f59e0b">时令/节点</span>
+    <span class="legend-item" style="background:#9333ea">展会</span>
+  </div>
+  <div>
+    <button class="btn btn-primary" onclick="window.print()">打印 / 导出 PDF</button>
+  </div>
+</div>
+
+<div class="gantt-wrap">
+  <div class="gantt-scroll">
+    <div class="gantt-grid" id="ganttGrid">
+      <!-- JS 动态渲染 -->
+    </div>
+  </div>
+  <div class="add-row-btn">
+    <button onclick="addNewRow()">＋ 新增一行活动</button>
+  </div>
+</div>
+
+<div class="hint-text">提示：点击甘特条查看详情；双击活动名/备注可编辑</div>
+
+<!-- 详情弹窗 -->
+<div class="overlay" id="overlay" onclick="closePopup()"></div>
+<div class="detail-popup" id="popup">
+  <button class="close-btn" onclick="closePopup()">x</button>
+  <h3 id="popupTitle"></h3>
+  <div class="field"><b>分类</b><span id="popupCat"></span></div>
+  <div class="field"><b>平台</b><span id="popupPlat"></span></div>
+  <div class="field"><b>时间</b><span id="popupTime"></span></div>
+  <div class="field"><b>卖点/地点</b><span id="popupLoc"></span></div>
+  <div class="field"><b>适用类目</b><span id="popupCate"></span></div>
+</div>
+
+</div>
+
+<script>
+// ===================== 数据 =====================
+const MONTHS = ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"];
+const MONTH_COUNT = 12;
+
+const PLAT_COLORS = {
+  "小店侧": "#ec4899",
+  "AMS":    "#0891b2",
+  "抖音侧":  "#1e1e1e",
+};
+
+// 活动行数据
+// className: 分组类名（决定左侧合并色），tagClass: 标签色，活动名，平台甘特条列表
+const ROWS = [
+  // ==================== 时令/节点 ====================
+  {
+    group: "时令/节点",
+    tagClass: "tag-时令节点",
+    groupClass: "时令节点",
+    name: "春日出游",
+    detail: "季节性（升温）、智能照护、国风育儿情感陪伴",
+    cats: "母婴用品/母婴服饰",
+    bars: [
+      { plat: "小店侧", label: "亲子出游季", start: 4, end: 5 },    // 4-5月
+      { plat: "AMS",    label: "春日出游季", start: 3, end: 4, cats: "美妆个护/服饰" },    // 3月中-4月中
+      { plat: "抖音侧",  label: "春日焕新",   start: 3, end: 4 },    // 3-4月
+    ]
+  },
+  {
+    group: "时令/节点",
+    tagClass: "tag-时令节点",
+    groupClass: "时令节点",
+    name: "618",
+    detail: "大促囤货心智",
+    cats: "全行业",
+    bars: [
+      { plat: "小店侧", label: "618", start: 5, end: 6 },
+      { plat: "AMS",    label: "618", start: 5, end: 6 },
+      { plat: "抖音侧",  label: "618", start: 5, end: 6 },
+    ]
+  },
+  {
+    group: "时令/节点",
+    tagClass: "tag-时令节点",
+    groupClass: "时令节点",
+    name: "开学季",
+    detail: "早餐营养、分龄精养、课堂学习陪伴（护眼）、配套保障（减负护脊、安全追踪）",
+    cats: "食品饮料/3c/母婴用品/母婴服饰",
+    bars: [
+      { plat: "小店侧", label: "开学季", start: 8, end: 8 },
+      { plat: "AMS",    label: "开学季", start: 8, end: 8 },
+      { plat: "抖音侧",  label: "开学季", start: 8, end: 8, cats: "图书教育" },
+    ]
+  },
+  {
+    group: "时令/节点",
+    tagClass: "tag-时令节点",
+    groupClass: "时令节点",
+    name: "双11&秋冬暖护季",
+    detail: "季节性（防风保暖、打底轻薄）、双11、成分",
+    cats: "母婴用品/母婴服饰/母婴食品",
+    bars: [
+      { plat: "小店侧", label: "双11",              start: 11, end: 11 },
+      { plat: "AMS",    label: "双11&秋冬暖护季",    start: 11, end: 11 },
+      { plat: "抖音侧",  label: "双11&秋冬暖护季",    start: 10, end: 12 },
+    ]
+  },
+
+  // ==================== 展会 ====================
+  {
+    group: "展会",
+    tagClass: "tag-展会",
+    groupClass: "展会",
+    name: "京正·北京国际孕婴童产业博览会",
+    detail: "北京",
+    cats: "母婴全行业",
+    bars: [
+      { plat: "AMS", label: "京正·北京国际孕婴童产业博览会", start: 3, end: 3 },
+    ]
+  },
+  {
+    group: "展会",
+    tagClass: "tag-展会",
+    groupClass: "展会",
+    name: "NBM 杭州母婴&营养健康展",
+    detail: "杭州",
+    cats: "母婴全行业（ep.婴童营养&奶粉）",
+    bars: [
+      { plat: "AMS", label: "NBM 杭州母婴&营养健康展", start: 4, end: 4 },
+    ]
+  },
+  {
+    group: "展会",
+    tagClass: "tag-展会",
+    groupClass: "展会",
+    name: "MCH 国际妇幼健康产业博览会",
+    detail: "广州",
+    cats: "母婴全行业（ep.婴童营养&奶粉）",
+    bars: [
+      { plat: "AMS", label: "MCH国际妇幼健康产业博览会", start: 6, end: 6 },
+    ]
+  },
+  {
+    group: "展会",
+    tagClass: "tag-展会",
+    groupClass: "展会",
+    name: "CBME 国际孕婴童展",
+    detail: "上海",
+    cats: "",
+    bars: [
+      { plat: "AMS", label: "CBME国际孕婴童展", start: 7, end: 7 },
+    ]
+  },
+];
+
+// ===================== 渲染 =====================
+function calcBarStyle(start, end) {
+  // start/end 是 1-based 月份，返回 left(%)/width(%)
+  const unit = 100 / MONTH_COUNT;
+  const left = (start - 1) * unit + 1;
+  const width = (end - start + 1) * unit - 2;
+  return { left: left + "%", width: width + "%" };
+}
+
+function buildGantt() {
+  const grid = document.getElementById("ganttGrid");
+  grid.innerHTML = "";
+
+  // ---- 表头行 ----
+  // 空表头：分类列 + 活动名列
+  const h1 = document.createElement("div");
+  h1.className = "header-cell";
+  grid.appendChild(h1);
+  const h2 = document.createElement("div");
+  h2.className = "header-cell";
+  h2.textContent = "活动名称";
+  grid.appendChild(h2);
+  // 12个月
+  MONTHS.forEach(m => {
+    const cell = document.createElement("div");
+    cell.className = "header-cell";
+    cell.textContent = m;
+    grid.appendChild(cell);
+  });
+
+  // ---- 数据行 ----
+  let prevGroup = null;
+  let groupStartIdx = null;
+  let groupRows = []; // 追踪每个分组占用的行
+
+  ROWS.forEach((row, idx) => {
+    // 如果分组变化，标记位置
+    if (row.group !== prevGroup) {
+      // 渲染前一个分组的合并单元格
+      if (prevGroup !== null && groupRows.length > 0) {
+        //  已在逐行渲染时处理，此处不需要事后修改
+      }
+      prevGroup = row.group;
+      groupRows = [];
+    }
+    groupRows.push(idx);
+
+    // 活动名称列
+    const nameCell = document.createElement("div");
+    nameCell.className = "name-cell";
+    nameCell.innerHTML = `
+      <span class="tag ${row.tagClass}">${row.group}</span>
+      <span class="act-name" contenteditable="true">${row.name}</span>
+      ${row.detail ? `<span class="act-detail" contenteditable="true">${row.detail}</span>` : ""}
+    `;
+    grid.appendChild(nameCell);
+
+    // 12个月列
+    for (let m = 1; m <= 12; m++) {
+      const monthCell = document.createElement("div");
+      monthCell.className = "month-data-cell";
+      monthCell.dataset.row = idx;
+      monthCell.dataset.month = m;
+      grid.appendChild(monthCell);
+    }
+  });
+
+  // ---- 渲染甘特条（需要用绝对定位，因为跨月份） ----
+  // 先建立分组信息（用于左侧合并标签）
+  // 重新计算：在 Grid 中，分组标签需要跨行合并
+  // Grid 中每个数据行占一行，每行有 1(标签) + 1(名称) + 12(月份) = 14个 grid cell
+
+  // 分析分组边界
+  const groupBoundaries = [];
+  let gStart = 0;
+  for (let i = 1; i <= ROWS.length; i++) {
+    if (i === ROWS.length || ROWS[i].group !== ROWS[gStart].group) {
+      groupBoundaries.push({
+        group: ROWS[gStart].group,
+        groupClass: ROWS[gStart].groupClass,
+        startIdx: gStart,
+        endIdx: i - 1,
+        count: i - gStart,
+      });
+      gStart = i;
+    }
+  }
+
+  // 重建整个 grid，这次包含合并的标签列
+  // 使用 CSS Grid 的 grid-row 跨行
+  grid.innerHTML = "";
+
+  // 表头行
+  const hdr1 = document.createElement("div");
+  hdr1.className = "header-cell";
+  hdr1.style.gridRow = "1";
+  hdr1.style.gridColumn = "1";
+  grid.appendChild(hdr1);
+
+  const hdr2 = document.createElement("div");
+  hdr2.className = "header-cell";
+  hdr2.style.gridRow = "1";
+  hdr2.style.gridColumn = "2";
+  hdr2.textContent = "活动名称";
+  grid.appendChild(hdr2);
+
+  MONTHS.forEach((m, mi) => {
+    const cell = document.createElement("div");
+    cell.className = "header-cell";
+    cell.style.gridRow = "1";
+    cell.style.gridColumn = (mi + 3);
+    cell.textContent = m;
+    grid.appendChild(cell);
+  });
+
+  // 数据行：从 row 2 开始
+  let gridRowIdx = 2;
+
+  groupBoundaries.forEach(gb => {
+    const groupLabel = document.createElement("div");
+    groupLabel.className = "group-label " + gb.groupClass;
+    groupLabel.style.gridRow = gridRowIdx + " / " + (gridRowIdx + gb.count);
+    groupLabel.style.gridColumn = "1";
+    groupLabel.textContent = gb.group;
+    grid.appendChild(groupLabel);
+
+    for (let i = gb.startIdx; i <= gb.endIdx; i++) {
+      const row = ROWS[i];
+      const thisRow = gridRowIdx + (i - gb.startIdx);
+
+      // 名称列
+      const nc = document.createElement("div");
+      nc.className = "name-cell";
+      nc.style.gridRow = thisRow;
+      nc.style.gridColumn = "2";
+      nc.innerHTML = `
+        <span class="tag ${row.tagClass}">${row.group}</span>
+        <span class="act-name" contenteditable="true">${row.name}</span>
+        ${row.detail ? `<span class="act-detail" contenteditable="true">${row.detail}</span>` : ""}
+      `;
+      grid.appendChild(nc);
+
+      // 12个月列（仅作占位网格线）
+      for (let m = 1; m <= 12; m++) {
+        const mc = document.createElement("div");
+        mc.className = "month-data-cell";
+        mc.style.gridRow = thisRow;
+        mc.style.gridColumn = (m + 2);
+        grid.appendChild(mc);
+      }
+
+      // 甘特条容器：横跨所有12个月列，用百分比定位单条连续条
+      const barContainer = document.createElement("div");
+      barContainer.style.gridRow = thisRow;
+      barContainer.style.gridColumn = "3 / 15";
+      barContainer.style.position = "relative";
+      barContainer.style.pointerEvents = "none";
+      // 将 barContainer 追加到 grid（位于 month-data-cell 之后，自然在上层）
+      grid.appendChild(barContainer);
+
+      row.bars.forEach((bar, bi) => {
+        const { left, width } = calcBarStyle(bar.start, bar.end);
+        const seg = document.createElement("div");
+        seg.className = "gantt-bar-seg";
+        seg.style.background = PLAT_COLORS[bar.plat] || "#888";
+        seg.style.position = "absolute";
+        seg.style.left = left;
+        seg.style.width = width;
+        seg.style.top = (3 + bi * 42) + "px";
+        seg.style.pointerEvents = "auto";
+        seg.title = bar.plat + "：" + bar.label;
+        let html = '<span style="overflow:hidden;text-overflow:ellipsis;max-width:100%">' + bar.label + '</span>';
+        const barCats = bar.cats || row.cats;
+        if (barCats) {
+          html += '<span class="gantt-bar-sub">' + barCats + '</span>';
+        }
+        seg.innerHTML = html;
+        seg.onclick = () => showPopup(row, bar);
+        barContainer.appendChild(seg);
+      });
+
+      // 根据甘特条数量动态设置行高（barContainer 决定整行高度）
+      const neededHeight = 3 + row.bars.length * 42 + 4;
+      barContainer.style.minHeight = neededHeight + "px";
+    }
+
+    gridRowIdx += gb.count;
+  });
+}
+
+function showPopup(item, plat) {
+  document.getElementById("popupTitle").textContent = plat.label;
+  document.getElementById("popupCat").textContent = item.group;
+  document.getElementById("popupPlat").textContent = plat.plat;
+  document.getElementById("popupTime").textContent =
+    plat.start + "月" + (plat.start !== plat.end ? " ~ " + plat.end + "月" : "");
+  document.getElementById("popupLoc").textContent = item.detail;
+  document.getElementById("popupCate").textContent = item.cats || "—";
+  document.getElementById("overlay").classList.add("show");
+  document.getElementById("popup").classList.add("show");
+}
+
+function closePopup() {
+  document.getElementById("overlay").classList.remove("show");
+  document.getElementById("popup").classList.remove("show");
+}
+
+function addNewRow() {
+  ROWS.push({
+    group: "时令/节点",
+    tagClass: "tag-时令节点",
+    groupClass: "时令节点",
+    name: "新活动",
+    detail: "新卖点描述",
+    cats: "新类目",
+    bars: [{ plat: "小店侧", label: "新活动", start: 1, end: 1 }],
+  });
+  buildGantt();
+}
+
+// ===================== 初始化 =====================
+buildGantt();
+document.addEventListener("keydown", e => { if (e.key === "Escape") closePopup(); });
+</script>
+
+</body>
+</html>

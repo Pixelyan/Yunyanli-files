@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>食品饮料 Q3 活动规划 · 分类周历（可编辑版）</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    margin: 0;
+    padding: 24px;
+    background: #f5f6f8;
+    color: #222;
+  }
+  h1 { text-align: center; font-size: 22px; margin: 0 0 6px; }
+  .subtitle { text-align: center; color: #888; font-size: 13px; margin-bottom: 18px; }
+  .toolbar {
+    display: flex; gap: 10px; align-items: center; justify-content: space-between;
+    margin-bottom: 14px; flex-wrap: wrap;
+  }
+  .legend { display: flex; gap: 10px; flex-wrap: wrap; font-size: 12px; }
+  .legend span {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 3px 8px; border-radius: 10px; color: #fff;
+  }
+  .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .btn {
+    border: 1px solid #d0d4dc; background: #fff; border-radius: 6px;
+    padding: 6px 12px; cursor: pointer; font-size: 13px;
+  }
+  .btn:hover { background: #eef2f7; }
+  .btn-primary { background: #1a73e8; color: #fff; border-color: #1a73e8; }
+  .btn-primary:hover { background: #155cb8; }
+  table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,.05);
+    font-size: 13px;
+  }
+  thead th {
+    background: #fafbfc;
+    color: #555;
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 1px solid #ebeef2;
+    font-weight: 600;
+    position: sticky; top: 0;
+  }
+  tbody td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #f1f3f5;
+    vertical-align: top;
+  }
+  tbody tr:hover td { background: #fafcff; }
+  .group-row td {
+    background: #f7f8fa;
+    font-weight: 700;
+    color: #444;
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+  td[contenteditable="true"] {
+    outline: none;
+    transition: background .15s;
+  }
+  td[contenteditable="true"]:focus { background: #fff8d8; box-shadow: inset 0 0 0 2px #ffd34d; }
+  .tag {
+    display: inline-block; padding: 2px 8px; border-radius: 10px;
+    font-size: 11px; color: #fff; line-height: 1.6;
+  }
+  .tag-客户会 { background: #1a73e8; }
+  .tag-行业溯源 { background: #16a34a; }
+  .tag-时令 { background: #f59e0b; }
+  .tag-展会 { background: #9333ea; }
+  .tag-大事件 { background: #ef4444; }
+  .group-客户会 { background: #e8f0fe !important; color: #1a4ea8 !important; }
+  .group-行业溯源 { background: #e6f4ea !important; color: #15803d !important; }
+  .group-时令 { background: #fef3c7 !important; color: #b45309 !important; }
+  .group-展会 { background: #f3e8ff !important; color: #6b21a8 !important; }
+  .group-大事件 { background: #fee2e2 !important; color: #b91c1c !important; }
+  .week-col { font-family: ui-monospace, "SF Mono", Menlo, monospace; color: #555; white-space: nowrap; }
+  .editable-hint { color: #b8b8b8; font-size: 11px; margin-left: 6px; }
+  .delete-btn {
+    color: #d00; cursor: pointer; border: none; background: transparent; font-size: 14px;
+  }
+  .add-row { text-align: center; padding: 10px; background: #fafbfc; }
+  .add-row button { background: #fff; border: 1px dashed #c8cdd5; color: #555; padding: 5px 14px; border-radius: 6px; cursor: pointer; }
+  .add-row button:hover { background: #eef2f7; }
+  .week-strip {
+    display: grid;
+    grid-template-columns: repeat(14, 1fr);
+    gap: 4px;
+    margin: 14px 0 8px;
+  }
+  .week-cell {
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 6px;
+    padding: 4px; text-align: center; font-size: 11px;
+  }
+  .week-cell b { color: #1a73e8; display: block; font-size: 12px; }
+  .week-cell span { color: #888; }
+</style>
+</head>
+<body>
+
+<h1>食品饮料 Q3 活动规划 · 分类周历</h1>
+<div class="subtitle">按活动类型分组 · 各业务线活动一览（点击单元格直接编辑）</div>
+
+<div class="toolbar">
+  <div class="legend">
+    <span style="background:#1a73e8">客户会</span>
+    <span style="background:#16a34a">行业溯源</span>
+    <span style="background:#f59e0b">时令/节点</span>
+    <span style="background:#9333ea">展会</span>
+    <span style="background:#ef4444">品类自有大事件</span>
+    <span style="background:#0d9488">茶酒生鲜</span>
+    <span style="background:#ec4899">预包装</span>
+    <span style="background:#7c3aed">保健健康滋补</span>
+    <span style="background:#dc2626">团长红</span>
+    <span style="background:#eab308">中心全行业</span>
+  </div>
+  <div>
+    <button class="btn" onclick="exportCSV()">导出 CSV</button>
+    <button class="btn btn-primary" onclick="window.print()">打印 / 另存为 PDF</button>
+  </div>
+</div>
+
+<div class="week-strip" id="weekStrip"></div>
+
+<table id="dataTable">
+  <thead>
+    <tr>
+      <th style="width:90px">分类</th>
+      <th style="width:130px">业务组</th>
+      <th>活动名称</th>
+      <th style="width:150px">时间</th>
+      <th>地点 / 备注</th>
+      <th style="width:40px"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- 客户会 -->
+    <tr class="group-row group-客户会"><td colspan="6">▍ 客户会</td></tr>
+    <tr data-id="r1">
+      <td><span class="tag tag-客户会">客户会</span></td>
+      <td contenteditable="true">茶酒生鲜</td>
+      <td contenteditable="true">白啤爱生期部门</td>
+      <td class="week-col" contenteditable="true">W27（7/6-7/12）</td>
+      <td contenteditable="true">广州</td>
+      <td><button class="delete-btn" onclick="delRow(this)">✕</button></td>
+    </tr>
+    <tr data-id="r2">
+      <td><span class="tag tag-客户会">客户会</span></td>
+      <td contenteditable="true">茶酒生鲜</td>
+      <td contenteditable="true">福建部门访</td>
+      <td class="week-col" contenteditable="true">W29（7/20-7/26）</td>
+      <td contenteditable="true">厦门</td>
+      <td><button class="delete-btn" onclick="delRow(this)">✕</button></td>
+    </tr>
+    <tr data-id="r3">
+      <td><span class="tag tag-客户会">客户会</span></td>
+      <td contenteditable="true">茶酒生鲜</td>
+      <td contenteditable="true">江南部门访·达云酒</td>
+      <td class="week-col" contenteditable="true">W32（8/10-8/16）</td>
+      <td contenteditable="true">—</td>
+      <td><button class="delete-btn" onclick="delRow(this)">✕</button></td>
+    </tr>
+    <tr data-id="r4">
+      <td><span class="tag tag-客户会">客户会</span></td>
+      <td contenteditable="true">茶酒生鲜</td>
+      <td contenteditable="true">白酒部门产业带览</td>
+      <td class="week-col" contenteditable="true">W32（8/10-8/16）</td>
+      <td contenteditable="true">安徽</td>
+      <td><button class="delete-btn" onclick="delRow(this)">✕</button></td>
+    </tr>
+    <tr data-id="r5">
+      <td><span class="tag tag-客户会">客户会</span></td>
+      <td contenteditable="true">茶酒生鲜</td>
+      <td contenteditable="true">白酒部产业带·华南（梅州）</td>
+      <td class="week-col" contenteditable="true">W34（8/24-8/30）</td>
+      <td contenteditable="true">山</td>
+      <td><button class="delete-btn" onclick="delRow(this)">✕</button></td>
+    </tr>
+    <tr data-id="r6">
+      <td><span class="tag tag-客户会">客户会</span></td>
+      <td contenteditable="true">茶酒生鲜</td>
+      <td contenteditable="true">新选品签约</td>
+      <td class="week-col" contenteditable="true">W34-W35</td>
+      <td contenteditable="true">安徽</td>
+      <td><button class="delete-btn" onclick="delRow(this)">✕</button></td>
+    </tr>
+    <tr data-id="r7">
+      <td><span class="tag tag-客户会">客户会</span></td>
+      <td contenteditable="true">增长组</td>
+      <td contenteditable="true">重庆区域冠军</td>
+      <td class="week-col" contenteditable="true">W27（7/6-7/12）</td>
+      <td contenteditable="true">重庆 6/29-7/3</td>
+      <td><button class="delete-btn" onclick="delRow(this)">✕</button></td>
+    </tr>
+    <tr data-id="r8">
+      <td><span class="tag tag-客户会">客户会</span></td>
+      <td contenteditable="true">增长组</td>
+      <td contenteditable="true">广东区域冠军</td>
+      <td class="week-col" contenteditable="true">W32（8/10-8/16）</td>
+      <td contenteditable="true">广东 8月</td>
+      <td><button class="delete-btn" onclick="delRow(this)">✕</button></td>
+    </tr>
+    <tr data-id="r9">
+      <td><span class="tag tag-客户会">客户会</span></td>
+      <td contenteditable="true">中心全行业</td>
+      <td contenteditable="true">K800 商超团·门调</td>
+      <td class="week-col" contenteditable="true">W28（7/13-7/19）</td>
+      <td contenteditable="true">—</td>
+      <td><button class="delete-btn" onclick="delRow(this)">✕</button></td>
+    </tr>
+    <tr data-id="r10">
+      <td><span class="tag tag-客户会">客户会</span></td>
+      <td contenteditable="true">中心全行业</td>
+      <td contenteditable="true">跳跳奇鲜旅·广商7商</td>
+      <td class="week-col" contenteditable="true">W33（8/17-8/23）</td>
+      <td contenteditable="true">—</td>
+      <td><button class="delete-btn" onclick="delRow(this)">✕</button></td>
+    </tr>
+
+    <!-- 行业溯源 -->
+    <tr class="group-row group-行业溯源"><td colspan="6">▍ 行业溯源</td></tr>
+    <tr data-id="r11">
+      <td><span class="tag tag-行业溯源">行业溯源</span></td>
+      <td contenteditable="true">茶酒生鲜</td>
+      <td contenteditable="true">红酒产业带溯源</td>
+      <td class="week-col" contenteditable="true">W26（6/29-7/5）</td>
+      <td contenteditable="true">宁夏 | 6-7月</td>
+      <td><button class="delete-btn" onclick="delRow(this)">✕</button></td>
+    </tr>
+    <tr data-id="r12">
+      <td><span class="tag tag-行业溯源">行业溯源</span></td>
+      <td contenteditable="true">茶酒生鲜</td>
+      <td contenteditable="true">福建德类酒游源</td>
+      <td class="week-col" contenteditable="true">W31（8/3-8/9）</td>
+      <td contenteditable="true">17 18+H² | 5月 | 8月·16H·清酒5月·酒6-8</td>
+      <td><button class="delete-btn" onclick="delRow(this)">✕</button></td>
+    </tr>
+    <tr data-id="r13">
+      <td><span class="tag tag-行业溯源">行业溯源</span></td>
+      <td contenteditable="true">茶酒生鲜</td>
+      <td contenteditable="true">杏子产业带溯源</td>
+      <td class="week-col" contenteditable="true">W31（8/3-8/9）</td>
+      <td contenteditable="true">宁夏 | 8月</td>
+      <td><button class="delete-btn" onclick="delRow(this)">✕</button></td>
+    </tr>
+    <tr data-id="r14">
+      <td><span class="tag tag-行业溯源">行业溯源</span></td>
+      <td contenteditable="true">茶酒生鲜</td>
+      <td contenteditable="true">新选品访宁</td>
+      <td class="week-col" contenteditable="true">W34（8/24-8/30）</td>
+      <td contenteditable="true">安徽</td>
+      <td><button class="delete-btn" onclick="delRow(this)">✕</button></td>
+    </tr>
+    <tr data-id="r15">
+      <td><span class="tag tag-行业溯源">行业溯源</span></td>
+      <td contenteditable="true">茶酒生鲜</td>
+      <td contenteditable="true">涨广展谈成</td>
+      <td class="week-col" contenteditable="true">W35（8/31-9/6）</td>
+      <td contenteditable="true">5-H² 0月 | 6月</td>
+      <td><button class="delete-btn" onclick="delRow(this)">✕</button></td>
+    </tr>
+    <tr data-id="r16">
+      <td><span class="tag tag-行业溯源">行业溯源</span></td>
+      <td contenteditable="true">茶酒生鲜</td>
+      <td contenteditable="true">江苏德类酒源</td>
+      <td class="week-col" contenteditable="true">W38（9/21-9/27）</td>
+      <td contenteditable="true">苏州/安清</td>
+      <td><button class="delete-btn" onclick="delRow(this)">✕</button></td>
+    </tr>
+    <tr data-id="r17">
+      <td><span class="tag tag-行业溯源">行业溯源</span></td>
+      <td contenteditable="true">增长组</td>
+      <td contenteditable="true">晋杯中国·重庆站赛清</td>
+      <td class="week-col" contenteditable="true">W26（6/29-7/5）</td>
+      <td contenteditable="true">重庆 6/2</td>
+      <td><button class="delete-btn" onclick="delRow(this)">✕</button></td>
+    </tr>
+    <tr data-id="r18">
+      <td><span class="tag tag-行业溯源">行业溯源</span></td>
+      <td contenteditable="true">增长组</td>
+      <td contenteditable="true">晋杯中国·广东站赛清</td>
+      <td class="week-col" contenteditable="true">W32（8/10-8/16）</td>
+      <td contenteditable="true">广东 8月</td>
+      <td><button class="delete-btn" onclick="delRow(this)">✕</button></td>
+    </tr>
+    <tr data-id="r19">
+      <td><span class="tag tag-行业溯源">行业溯源</span></td>
+      <td contenteditable="true">增长组</td>
+      <td contenteditable="true">晋杯中国·山东站赛清</td>
+      <td class="week-col" contenteditable="true">W37（9/14-9/20）</td>
+      <td contenteditable="true">山东 9月</td>
+      <td><button class="delete-btn" onclick="delRow(this)">✕</button></td>
+    </tr>
+
+    <!-- 时令/节点 -->
+    <tr class="group-row group-时令"><td colspan="6">▍ 时令 / 节点</td></tr>
+    <tr data-id="r20">
+      <td><span class="tag tag-时令">时令/节点</span></td>
+      <td contenteditable="true">茶酒生鲜</td>
+      <td contenteditable="true">蒙糖茶</td>
+      <td class="week-col" contenteditable="true">W26-W34</td>
+      <td contenteditable="true">桃/榴莲/益母/山竹/杨梅/甜玉米/及贝南瓜</td>
+      <td><button class="delete-btn" onclick="delRow(this)">✕</button></td>
+    </tr>
+    <tr data-id="r21">
+      <td><span class="tag tag-时令">时令/节点</span></td>
+      <td contenteditable="true">茶酒生鲜</td>
+      <td contenteditable="true">持糖茶</td>
+      <td class="week-col" contenteditable="true">W35-W39</td>
+      <td contenteditable="true">奇异果/龙/枣/黑/柿子</td>
+      <td><button class="delete-btn" onclick="delRow(this)">✕</button></td>
+    </tr>
+    <tr data-id="r22">
+      <td><span class="tag tag-时令">时令/节点</span></td>
+      <td contenteditable="true">茶酒生鲜</td>
+      <td contenteditable="true">不方要茶</td>
+      <td class="week-col" contenteditable="true">W33-W34</td>
+      <td contenteditable="true">历山岛/香城环/牛/海阳枇杷</td>
+      <td><button class="delete-btn" onclick="delRow(this)">✕</button></td>
+    </tr>
+    <tr data-id="r23">
+      <td><span class="tag tag-时令">时令/节点</span></td>
+      <td contenteditable="true">茶酒生鲜</td>
+      <td contenteditable="true">小米糖茶</td>
+      <td class="week-col" contenteditable="true">W35-W39</td>
+      <td contenteditable="true">阳澄湖/高邮湖大闸蟹</td>
+      <td><button class="delete-btn" onclick="delRow(this)">✕</button></td>
+    </tr>
+    <tr data-id="r24">
+      <td><span class="tag tag-时令">时令/节点</span></td>
+      <td contenteditable="true">预包装</td>
+      <td contenteditable="true">七夕刻</td>
+      <td class="week-col" contenteditable="true">W31（8/3-8/9）</td>
+      <td contenteditable="true">桃花签/唤醒/访客判</td>
+      <td><button class="delete-btn" onclick="delRow(this)">✕</button></td>
+    </tr>
+    <tr data-id="r25">
+      <td><span class="tag tag-时令">时令/节点</span></td>
+      <td contenteditable="true">预包装</td>
+      <td contenteditable="true">七夕焕热</td>
+      <td class="week-col" contenteditable="true">W31（8/3-8/9）</td>
+      <td contenteditable="true">—</td>
+      <td><button class="delete-btn" onclick="delRow(this)">✕</button></td>
+    </tr>
+    <tr data-id="r26">
+      <td><span class="tag tag-时令">时令/节点</span></td>
+      <td contenteditable="true">预包装</td>
+      <td contenteditable="true">萝开手季</td>
+      <td class="week-col" contenteditable="true">W32（8/10-8/16）</td>
+      <td contenteditable="true">套食/速冻/乳品</td>
+      <td><button class="delete-btn" onclick="delRow(this)">✕</button></td>
+    </tr>
+    <tr data-id="r27">
+      <td><span class="tag tag-时令">时令/节点</span></td>
+      <td contenteditable="true">预包装</td>
+      <td contenteditable="true">白露·秋糖</td>
+      <td class="week-col" contenteditable="true">W33（8/17-8/23）</td>
+      <td contenteditable="true">鲜食/快送</td>
+      <td><button class="delete-btn" onclick="delRow(this)">✕</button></td>
+    </tr>
+    <tr data-id="r28">
+      <td><span class="tag tag-时令">时令/节点</span></td>
+      <td contenteditable="true">预包装</td>
+      <td contenteditable="true">粳台威节</td>
+      <td class="week-col" contenteditable="true">W34（8/24-8/30）</td>
+      <td contenteditable="true">—</td>
+      <td><button class="delete-btn" onclick="delRow(this)">✕</button></td>
+    </tr>
+    <tr data-id="r29">
+      <td><span class="tag tag-时令">时令/节点</span></td>
+      <td contenteditable="true">保健健康滋补</td>
+      <td contenteditable="true">立秋·粥调滋补</td>
+      <td class="week-col" contenteditable="true">W27-W32</td>
+      <td contenteditable="true">购架端/搭类/后台</td>
+      <td><button class="delete-btn" onclick="delRow(this)">✕</button></td>
+    </tr>
+    <tr data-id="r30">
+      <td><span class="tag tag-时令">时令/节点</span></td>
+      <td contenteditable="true">保健健康滋补</td>
+      <td contenteditable="true">白露·滋补</td>
+      <td class="week-col" contenteditable="true">W35（8/31-9/6）</td>
+      <td contenteditable="true">药食同源/润肺</td>
+      <td><button class="delete-btn" onclick="delRow(this)">✕</button></td>
+    </tr>
+    <tr data-id="r31">
+      <td><span class="tag tag-时令">时令/节点</span></td>
+      <td contenteditable="true">中心全行业</td>
+      <td contenteditable="true">6 端阳/抽奖/洗脑</td>
+      <td class="week-col" contenteditable="true">W27-W32</td>
+      <td contenteditable="true">营养/胚芽/苏打饮品|怀兴薄荷糖/茶干/胚芽糕点|极速速食/轻食/复合调味|保健膳食/体重管理/洁选齿/肾|纸/抽湿</td>
+      <td><button class="delete-btn" onclick="delRow(this)">✕</button></td>
+    </tr>
+    <tr data-id="r32">
+      <td><span class="tag tag-时令">时令/节点</span></td>
+      <td contenteditable="true">中心全行业</td>
+      <td contenteditable="true">4 休秋礼·速享</td>
+      <td class="week-col" contenteditable="true">W36-W39</td>
+      <td contenteditable="true">全品类核心战役</td>
+      <td><button class="delete-btn" onclick="delRow(this)">✕</button></td>
+    </tr>
+
+    <!-- 展会 -->
+    <tr class="group-row group-展会"><td colspan="6">▍ 展会</td></tr>
+    <tr data-id="r33">
+      <td><span class="tag tag-展会">展会</span></td>
+      <td contenteditable="true">中心全行业</td>
+      <td contenteditable="true">深圳食博会</td>
+      <td class="week-col" contenteditable="true">W27（7/6-7/12）</td>
+      <td contenteditable="true">7/3-7/2 | 7/4</td>
+      <td><button class="delete-btn" onclick="delRow(this)">✕</button></td>
+    </tr>
+    <tr data-id="r34">
+      <td><span class="tag tag-展会">展会</span></td>
+      <td contenteditable="true">中心全行业</td>
+      <td contenteditable="true">上海酒食会</td>
+      <td class="week-col" contenteditable="true">W29（7/20-7/26）</td>
+      <td contenteditable="true">7/22-7/25</td>
+      <td><button class="delete-btn" onclick="delRow(this)">✕</button></td>
+    </tr>
+    <tr data-id="r35">
+      <td><span class="tag tag-展会">展会</span></td>
+      <td contenteditable="true">中心全行业</td>
+      <td contenteditable="true">杭州全食展</td>
+      <td class="week-col" contenteditable="true">W32-W33</td>
+      <td contenteditable="true">8/10 | 8/13-8/15</td>
+      <td><button class="delete-btn" onclick="delRow(this)">✕</button></td>
+    </tr>
+    <tr data-id="r36">
+      <td><span class="tag tag-展会">展会</span></td>
+      <td contenteditable="true">中心全行业</td>
+      <td contenteditable="true">上海亚宠展</td>
+      <td class="week-col" contenteditable="true">W33（8/17-8/23）</td>
+      <td contenteditable="true">8/19-8/23</td>
+      <td><button class="delete-btn" onclick="delRow(this)">✕</button></td>
+    </tr>
+
+    <!-- 品类自有大事件 -->
+    <tr class="group-row group-大事件"><td colspan="6">▍ 品类自有大事件</td></tr>
+    <tr data-id="r37">
+      <td><span class="tag tag-大事件">大事件</span></td>
+      <td contenteditable="true">茶酒生鲜</td>
+      <td contenteditable="true">八马品牌好茶日</td>
+      <td class="week-col" contenteditable="true">W34（8/24-8/30）</td>
+      <td contenteditable="true">—</td>
+      <td><button class="delete-btn" onclick="delRow(this)">✕</button></td>
+    </tr>
+    <tr data-id="r38">
+      <td><span class="tag tag-大事件">大事件</span></td>
+      <td contenteditable="true">预包装</td>
+      <td contenteditable="true">五谷酸乐品牌日</td>
+      <td class="week-col" contenteditable="true">W27（7/6-7/12）</td>
+      <td contenteditable="true">—</td>
+      <td><button class="delete-btn" onclick="delRow(this)">✕</button></td>
+    </tr>
+    <tr data-id="r39">
+      <td><span class="tag tag-大事件">大事件</span></td>
+      <td contenteditable="true">预包装</td>
+      <td contenteditable="true">打折懒人新 KOMEX 特惠装</td>
+      <td class="week-col" contenteditable="true">W27（7/6-7/12）</td>
+      <td contenteditable="true">7/16-7/18</td>
+      <td><button class="delete-btn" onclick="delRow(this)">✕</button></td>
+    </tr>
+    <tr data-id="r40">
+      <td><span class="tag tag-大事件">大事件</span></td>
+      <td contenteditable="true">预包装</td>
+      <td contenteditable="true">蝴蝶虫品牌好茶日</td>
+      <td class="week-col" contenteditable="true">W33（8/17-8/23）</td>
+      <td contenteditable="true">—</td>
+      <td><button class="delete-btn" onclick="delRow(this)">✕</button></td>
+    </tr>
+    <tr data-id="r41">
+      <td><span class="tag tag-大事件">大事件</span></td>
+      <td contenteditable="true">预包装</td>
+      <td contenteditable="true">玛氏醇熟品牌好茶日</td>
+      <td class="week-col" contenteditable="true">W33（8/17-8/23）</td>
+      <td contenteditable="true">9月2</td>
+      <td><button class="delete-btn" onclick="delRow(this)">✕</button></td>
+    </tr>
+    <tr data-id="r42">
+      <td><span class="tag tag-大事件">大事件</span></td>
+      <td contenteditable="true">保健健康滋补</td>
+      <td contenteditable="true">糖食·九转滋补</td>
+      <td class="week-col" contenteditable="true">W33（8/17-8/23）</td>
+      <td contenteditable="true">一品好礼·万江</td>
+      <td><button class="delete-btn" onclick="delRow(this)">✕</button></td>
+    </tr>
+    <tr data-id="r43">
+      <td><span class="tag tag-大事件">大事件</span></td>
+      <td contenteditable="true">保健健康滋补</td>
+      <td contenteditable="true">糖食·中九好</td>
+      <td class="week-col" contenteditable="true">W37（9/14-9/20）</td>
+      <td contenteditable="true">蛋白/万好粒系列</td>
+      <td><button class="delete-btn" onclick="delRow(this)">✕</button></td>
+    </tr>
+    <tr data-id="r44">
+      <td><span class="tag tag-大事件">大事件</span></td>
+      <td contenteditable="true">保健健康滋补</td>
+      <td contenteditable="true">大郎禁年·品酒</td>
+      <td class="week-col" contenteditable="true">W37（9/14-9/20）</td>
+      <td contenteditable="true">—</td>
+      <td><button class="delete-btn" onclick="delRow(this)">✕</button></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="add-row">
+  <button onclick="addRow()">＋ 新增一行活动</button>
+</div>
+
+<p style="text-align:center;color:#aaa;font-size:11px;margin-top:16px;">
+  提示：直接点击任意单元格即可编辑；可导出 CSV 在 Excel 中继续处理；右侧 ✕ 可删除该行。
+</p>
+
+<script>
+// 周次条
+const weeks = [
+  ["W26","6/29-7/5"],["W27","7/6-7/12"],["W28","7/13-7/19"],["W29","7/20-7/26"],
+  ["W30","7/27-8/2"],["W31","8/3-8/9"],["W32","8/10-8/16"],["W33","8/17-8/23"],
+  ["W34","8/24-8/30"],["W35","8/31-9/6"],["W36","9/7-9/13"],["W37","9/14-9/20"],
+  ["W38","9/21-9/27"],["W39","9/28-10/4"]
+];
+const strip = document.getElementById("weekStrip");
+weeks.forEach(([w,d]) => {
+  const c = document.createElement("div");
+  c.className = "week-cell";
+  c.innerHTML = `<b>${w}</b><span>${d}</span>`;
+  strip.appendChild(c);
+});
+
+function delRow(btn) {
+  if (confirm("确定删除这一行吗？")) {
+    const tr = btn.closest("tr");
+    tr.parentNode.removeChild(tr);
+  }
+}
+
+function addRow() {
+  const tbody = document.querySelector("#dataTable tbody");
+  const tr = document.createElement("tr");
+  tr.innerHTML = `
+    <td><span class="tag tag-客户会">客户会</span></td>
+    <td contenteditable="true">新业务组</td>
+    <td contenteditable="true">新活动名称</td>
+    <td class="week-col" contenteditable="true">W26</td>
+    <td contenteditable="true">—</td>
+    <td><button class="delete-btn" onclick="delRow(this)">✕</button></td>
+  `;
+  tbody.appendChild(tr);
+  tr.scrollIntoView({behavior:"smooth", block:"center"});
+  tr.querySelector('[contenteditable]').focus();
+}
+
+function exportCSV() {
+  const rows = [["分类","业务组","活动名称","时间","地点/备注"]];
+  document.querySelectorAll("#dataTable tbody tr").forEach(tr => {
+    if (tr.classList.contains("group-row")) return;
+    const tds = tr.querySelectorAll("td");
+    const tag = tds[0].innerText.trim();
+    const row = [tag, tds[1].innerText.trim(), tds[2].innerText.trim(),
+                 tds[3].innerText.trim(), tds[4].innerText.trim()];
+    rows.push(row);
+  });
+  const csv = "\uFEFF" + rows.map(r => r.map(c => `"${c.replace(/"/g,'""')}"`).join(",")).join("\n");
+  const blob = new Blob([csv], {type: "text/csv;charset=utf-8"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "食品饮料Q3活动规划.csv";
+  a.click();
+  URL.revokeObjectURL(url);
+}
+</script>
+</body>
+</html>

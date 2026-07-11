@@ -40,11 +40,11 @@
   }
   .gantt-scroll { overflow-x: auto; }
 
-  /* Grid: 分类(80px) + 活动名(220px) + 12个月(1fr each) */
+  /* Grid: 分类(80px) + 活动名(200px) + 适配产品举例(160px) + 12个月(1fr each) */
   .gantt-grid {
     display: grid;
-    grid-template-columns: 76px 240px repeat(12, 1fr);
-    min-width: 1280px;
+    grid-template-columns: 76px 200px 160px repeat(12, 1fr);
+    min-width: 1440px;
   }
 
   /* --- 表头行 --- */
@@ -445,11 +445,18 @@ function buildGantt() {
   hdr2.textContent = "活动名称";
   grid.appendChild(hdr2);
 
+  const hdr3 = document.createElement("div");
+  hdr3.className = "header-cell";
+  hdr3.style.gridRow = "1";
+  hdr3.style.gridColumn = "3";
+  hdr3.textContent = "适配产品举例";
+  grid.appendChild(hdr3);
+
   MONTHS.forEach((m, mi) => {
     const cell = document.createElement("div");
     cell.className = "header-cell";
     cell.style.gridRow = "1";
-    cell.style.gridColumn = (mi + 3);
+    cell.style.gridColumn = (mi + 4);
     cell.textContent = m;
     grid.appendChild(cell);
   });
@@ -481,19 +488,30 @@ function buildGantt() {
       `;
       grid.appendChild(nc);
 
+      // 适配产品举例列
+      const pc = document.createElement("div");
+      pc.className = "name-cell";
+      pc.style.gridRow = thisRow;
+      pc.style.gridColumn = "3";
+      // 聚合所有 bars 的 cats：优先 bar.cats，fallback 到 row.cats
+      const allCats = row.bars.map(b => b.cats || row.cats || "").filter(c => c);
+      const uniqueCats = [...new Set(allCats)].join("<br>");
+      pc.innerHTML = `<span style="font-size:11px;color:#555;line-height:1.5;" contenteditable="true">${uniqueCats || "—"}</span>`;
+      grid.appendChild(pc);
+
       // 12个月列（仅作占位网格线）
       for (let m = 1; m <= 12; m++) {
         const mc = document.createElement("div");
         mc.className = "month-data-cell";
         mc.style.gridRow = thisRow;
-        mc.style.gridColumn = (m + 2);
+        mc.style.gridColumn = (m + 3);
         grid.appendChild(mc);
       }
 
       // 甘特条容器：横跨所有12个月列，用百分比定位单条连续条
       const barContainer = document.createElement("div");
       barContainer.style.gridRow = thisRow;
-      barContainer.style.gridColumn = "3 / 15";
+      barContainer.style.gridColumn = "4 / 16";
       barContainer.style.position = "relative";
       barContainer.style.pointerEvents = "none";
       // 将 barContainer 追加到 grid（位于 month-data-cell 之后，自然在上层）

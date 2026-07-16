@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>预包装赛道 26Q2竞价消耗扫描</title>
 <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
@@ -10,7 +10,7 @@
 html, body { overflow-x: hidden; max-width: 100%; }
 body { font-family: 'PingFang SC', 'Microsoft YaHei', -apple-system, sans-serif; background: #f0f2f5; color: #1a1a2e; line-height: 1.6; }
 .report-header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 45%, #0f3460 100%); padding: 38px 60px 34px; color: #fff; position: relative; overflow: hidden; }
-.report-header::before { content: ''; position: absolute; top: -60px; right: -60px; width: 260px; height: 260px; border-radius: 50%; background: rgba(230,81,0,.12); }
+.report-header::before { content: ''; position: absolute; top: -60px; right: -60px; width: 260px; height: 260px; border-radius: 50%; background: rgba(255,111,0,.12); }
 .header-tag { display: inline-block; background: #e65100; color: #fff; font-size: 12px; font-weight: 600; padding: 3px 12px; border-radius: 12px; letter-spacing: 1px; margin-bottom: 12px; }
 .report-header h1 { font-size: 26px; font-weight: 700; margin-bottom: 8px; }
 .report-header .subtitle { font-size: 13px; color: rgba(255,255,255,.65); display: flex; gap: 22px; flex-wrap: wrap; }
@@ -41,6 +41,13 @@ tbody td { padding: 8px 11px; border-bottom: 1px solid #f0f0f0; text-align: cent
 .insight { background: linear-gradient(135deg, #fff8e1, #fffde7); border-left: 4px solid #f9a825; border-radius: 0 10px 10px 0; padding: 13px 18px; margin-bottom: 20px; font-size: 13px; color: #444; line-height: 1.8; }
 .insight .ttl { font-weight: 700; color: #e65100; font-size: 14px; margin-bottom: 6px; display: flex; align-items: center; gap: 5px; }
 .insight ul { padding-left: 18px; } .insight li { margin-bottom: 3px; }
+.est-tag { font-size: 10px; color: #999; font-style: italic; margin-left: 6px; }
+.closure-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-bottom: 20px; }
+.cl-card { background: #fff; border-radius: 12px; padding: 24px 18px; box-shadow: 0 2px 12px rgba(0,0,0,.06); text-align: center; position: relative; overflow: hidden; border: 1px solid #f0f0f0; }
+.cl-card::before { content:''; position:absolute; top:0;left:0;right:0; height:4px; }
+.cl-card.cc1::before { background: linear-gradient(90deg,#e65100,#ffab91); } .cl-card.cc2::before { background: linear-gradient(90deg,#1565c0,#90caf9); } .cl-card.cc3::before { background: linear-gradient(90deg,#2e7d32,#a5d6a7); }
+.cl-card .big { font-size: 42px; font-weight: 800; line-height: 1.1; margin-bottom: 4px; } .cl-card.cc1 .big { color: #e65100; } .cl-card.cc2 .big { color: #1565c0; } .cl-card.cc3 .big { color: #2e7d32; }
+.cl-card .desc { font-size: 13px; color: #555; font-weight: 600; } .cl-card .sub { font-size: 12px; color: #aaa; margin-top: 4px; }
 .trend-wrap { background:#fff; border-radius:12px; box-shadow:0 2px 12px rgba(0,0,0,.06); padding:20px 20px 16px; margin-bottom:20px; }
 .trend-title { font-size:13px; font-weight:600; color:#555; margin-bottom:14px; display:flex; align-items:center; gap:7px; }
 .trend-bars { display:flex; align-items:flex-end; gap:12px; height:110px; }
@@ -54,243 +61,208 @@ tbody td { padding: 8px 11px; border-bottom: 1px solid #f0f0f0; text-align: cent
 <body>
 
 <div class="report-header">
-  <div class="header-tag">月度汇报</div>
+  <div class="header-tag">预包装赛道</div>
   <h1>预包装赛道 26Q2竞价消耗扫描</h1>
   <div class="subtitle">
-    <span>&#x1F4C5; 报告周期：2026Q2（4–6月，YTD 0616）</span>
-    <span>&#x1F4CA; Sell Type：竞价</span>
-    <span>&#x1F3E2; 范围：食品饮料一中心 · 预包装赛道（休闲食品/粮油调味速食/冲调品/宠物）</span>
-    <span>&#x1F5D3; 生成日期：2026-07-16</span>
+    <span>📅 报告周期：2026Q2（4–6月，YTD 0616）</span>
+    <span>📊 Sell Type：竞价</span>
+    <span>🏭 赛道范围：休闲食品 + 粮油调味速食 + 冲调品 + 宠物</span>
+    <span>🗓 生成日期：2026-07-16</span>
   </div>
 </div>
 
 <div class="container">
 
-<!-- ============ SECTION 1: 26Q2竞价消耗总览 ============ -->
-<div class="section-title"><span class="bar"></span><span class="num-badge">1</span>26Q2竞价消耗总览</div>
+<div class="section-title"><span class="bar"></span><span class="num-badge">1</span>26Q2预包装赛道竞价消耗总览</div>
 
 <div class="kpi-row">
-  <div class="kpi-card c-red"><div class="lbl">26Q2 日耗</div><div class="val">380.2<span class="unit">万元/天</span></div><span class="chg up">&#x25B2; 同比 +35.7%</span></div>
-  <div class="kpi-card c-orange"><div class="lbl">25Q2 日耗（同比基准）</div><div class="val">280.2<span class="unit">万元/天</span></div><div class="lbl" style="margin-top:5px;font-size:11px">91天</div></div>
-  <div class="kpi-card c-blue"><div class="lbl">26Q1 日耗（环比基准）</div><div class="val">326.5<span class="unit">万元/天</span></div><span class="chg up">&#x25B2; 环比 +16.4%</span></div>
-  <div class="kpi-card c-grey"><div class="lbl">26Q2 季度总消耗</div><div class="val">2.93<span class="unit">亿元</span></div><div class="lbl" style="margin-top:5px;font-size:11px">77天（YTD 0616）/ 竞价</div></div>
+  <div class="kpi-card c-red"><div class="lbl">26Q2 日耗</div><div class="val">359.8<span class="unit">万元/天</span></div><span class="chg up">▲ 同比 +23.5%</span></div>
+  <div class="kpi-card c-orange"><div class="lbl">25Q2 日耗（同比基准）</div><div class="val">291.3<span class="unit">万元/天</span></div><div class="lbl" style="margin-top:5px;font-size:11px">91天</div></div>
+  <div class="kpi-card c-blue"><div class="lbl">26Q1 日耗（环比基准）</div><div class="val">340.9<span class="unit">万元/天</span></div><span class="chg up">▲ 环比 +5.5%</span></div>
+  <div class="kpi-card c-grey"><div class="lbl">26Q2 季度总消耗</div><div class="val">2.77<span class="unit">亿元</span></div><div class="lbl" style="margin-top:5px;font-size:11px">77天（YTD 0616）/ 竞价 / 占一中心22.9%</div></div>
 </div>
 
 <div class="insight" style="margin-top:16px;">
-  <div class="ttl">&#x1F4A1; 总体解读</div>
+  <div class="ttl">💡 总体解读</div>
   <ul>
-    <li>预包装赛道26Q2日耗 <strong>380.2万元/天</strong>（季度总消耗约2.93亿元），同比+35.7%，增速显著跑赢食品饮料一中心整体（+20.3%），为全中心增长最快的赛道集群。</li>
-    <li>环比26Q1+16.4%，Q2零食旺季+618大促+宠物赛道爆发三重驱动日耗持续攀升，6月日均突破420万元。</li>
-    <li>预包装赛道（四子品类）占食品饮料一中心竞价消耗约 <strong>24.2%</strong>，仅次于保健食品单一赛道。</li>
-    <li>子品类：休闲食品、粮油调味速食、冲调品、宠物，其中宠物同比+166.4%为全行业增速标杆。</li>
+    <li>预包装赛道 26Q2 日耗 <strong>359.8 万元/天</strong>（季度总消耗约2.77亿元），同比+23.5%，占食品饮料一中心竞价消耗的 <strong>22.9%</strong>。</li>
+    <li>环比 26Q1 +5.5%，四个子品类中有三个保持正增长，宠物（+166.4%）和冲调品（+46.4%）为环比增速最快品类。</li>
+    <li>粮油调味速食以 165.7 万元/天为体量最大的子品类，但环比-4.5%略有回落。</li>
   </ul>
 </div>
 
 <div class="sub-title">1-1 链路分析</div>
 
 <div class="chart-box" style="border-radius:12px 12px 0 0;margin-bottom:0;padding-bottom:4px;box-shadow:0 2px 0 rgba(0,0,0,.04);">
-  <div class="chart-title">&#x1F4CA; 25Q1–26Q2 竞价链路月度日耗趋势（万元/天）</div>
+  <div class="chart-title">📊 25Q1–26Q2 预包装赛道竞价链路月度日耗趋势（万元/天）<span class="est-tag">基于一中心整体链路结构同比推算</span></div>
   <div id="linkChart" style="width: 100%; height: 380px;"></div>
 </div>
 
 <div style="background:#fff;border-radius:0 0 12px 12px;margin-top:-8px;padding:0 18px 14px;box-shadow:0 2px 12px rgba(0,0,0,.06);margin-bottom:20px;">
   <table style="width:100%;border-collapse:collapse;font-size:12px;table-layout:fixed;">
-    <thead><tr><td style="width:88px;padding:7px 8px 3px;font-weight:700;color:#555;border-top:2px solid #f0f0f0;white-space:nowrap;"></td><td style="padding:7px 2px 3px;text-align:center;font-weight:700;color:#e65100;border-top:2px solid #f0f0f0;font-size:11px;">25Q1</td><td style="padding:7px 2px 3px;text-align:center;font-weight:700;color:#e65100;border-top:2px solid #f0f0f0;font-size:11px;">25Q2</td><td style="padding:7px 2px 3px;text-align:center;font-weight:700;color:#e65100;border-top:2px solid #f0f0f0;font-size:11px;">25Q3</td><td style="padding:7px 2px 3px;text-align:center;font-weight:700;color:#e65100;border-top:2px solid #f0f0f0;font-size:11px;">25Q4</td><td style="padding:7px 2px 3px;text-align:center;font-weight:700;color:#c62828;border-top:2px solid #f0f0f0;font-size:11px;">26Q1</td><td style="padding:7px 2px 3px;text-align:center;font-weight:700;color:#c62828;border-top:2px solid #f0f0f0;font-size:11px;">26Q2</td></tr></thead>
+    <thead><tr><td style="width:88px;padding:7px 8px 3px;font-weight:700;color:#555;border-top:2px solid #f0f0f0;white-space:nowrap;"></td><td style="padding:7px 2px 3px;text-align:center;font-weight:700;color:#e65100;font-size:11px;">2025-01</td><td style="padding:7px 2px 3px;text-align:center;font-weight:700;color:#e65100;font-size:11px;">2025-02</td><td style="padding:7px 2px 3px;text-align:center;font-weight:700;color:#e65100;font-size:11px;">2025-03</td><td style="padding:7px 2px 3px;text-align:center;font-weight:700;color:#e65100;font-size:11px;">2025-04</td><td style="padding:7px 2px 3px;text-align:center;font-weight:700;color:#e65100;font-size:11px;">2025-05</td><td style="padding:7px 2px 3px;text-align:center;font-weight:700;color:#e65100;font-size:11px;">2025-06</td><td style="padding:7px 2px 3px;text-align:center;font-weight:700;color:#e65100;font-size:11px;">2025-07</td><td style="padding:7px 2px 3px;text-align:center;font-weight:700;color:#e65100;font-size:11px;">2025-08</td><td style="padding:7px 2px 3px;text-align:center;font-weight:700;color:#e65100;font-size:11px;">2025-09</td><td style="padding:7px 2px 3px;text-align:center;font-weight:700;color:#e65100;font-size:11px;">2025-10</td><td style="padding:7px 2px 3px;text-align:center;font-weight:700;color:#e65100;font-size:11px;">2025-11</td><td style="padding:7px 2px 3px;text-align:center;font-weight:700;color:#e65100;font-size:11px;">2025-12</td><td style="padding:7px 2px 3px;text-align:center;font-weight:700;color:#e65100;font-size:11px;">2026-01</td><td style="padding:7px 2px 3px;text-align:center;font-weight:700;color:#e65100;font-size:11px;">2026-02</td><td style="padding:7px 2px 3px;text-align:center;font-weight:700;color:#e65100;font-size:11px;">2026-03</td><td style="padding:7px 2px 3px;text-align:center;font-weight:700;color:#e65100;font-size:11px;">2026-04</td><td style="padding:7px 2px 3px;text-align:center;font-weight:700;color:#e65100;font-size:11px;">2026-05</td><td style="padding:7px 2px 3px;text-align:center;font-weight:700;color:#e65100;font-size:11px;">2026-06</td></tr></thead>
     <tbody>
-      <tr style="background:#fff8f0;"><td style="padding:5px 8px;font-weight:700;color:#e65100;font-size:12px;white-space:nowrap;">&#x1F512; 闭环%</td><td style="padding:5px 2px;text-align:center;color:#555;font-weight:600;">38.2%</td><td style="padding:5px 2px;text-align:center;color:#555;font-weight:600;">48.5%</td><td style="padding:5px 2px;text-align:center;color:#555;font-weight:600;">55.3%</td><td style="padding:5px 2px;text-align:center;color:#555;font-weight:600;">62.8%</td><td style="padding:5px 2px;text-align:center;color:#c62828;font-weight:700;">68.4%</td><td style="padding:5px 2px;text-align:center;color:#c62828;font-weight:700;">73.2%</td></tr>
-      <tr><td style="padding:5px 8px;font-weight:700;color:#1565c0;font-size:12px;white-space:nowrap;">&#x1F464; 客户数</td><td style="padding:5px 2px;text-align:center;color:#555;font-size:11px;font-weight:600;">2,120</td><td style="padding:5px 2px;text-align:center;color:#555;font-size:11px;font-weight:600;">3,850</td><td style="padding:5px 2px;text-align:center;color:#555;font-size:11px;font-weight:600;">4,320</td><td style="padding:5px 2px;text-align:center;color:#555;font-size:11px;font-weight:600;">5,680</td><td style="padding:5px 2px;text-align:center;color:#c62828;font-size:11px;font-weight:700;">5,240</td><td style="padding:5px 2px;text-align:center;color:#c62828;font-size:11px;font-weight:700;">6,150</td></tr>
+      <tr style="background:#fff8f0;"><td style="padding:5px 8px;font-weight:700;color:#e65100;font-size:12px;white-space:nowrap;">🔒 闭环%</td><td style="padding:5px 2px;text-align:center;color:#555;font-weight:600;">10.9%</td><td style="padding:5px 2px;text-align:center;color:#555;font-weight:600;">9.3%</td><td style="padding:5px 2px;text-align:center;color:#555;font-weight:600;">13.4%</td><td style="padding:5px 2px;text-align:center;color:#555;font-weight:600;">24.8%</td><td style="padding:5px 2px;text-align:center;color:#555;font-weight:600;">27.2%</td><td style="padding:5px 2px;text-align:center;color:#555;font-weight:600;">36.8%</td><td style="padding:5px 2px;text-align:center;color:#555;font-weight:600;">43.5%</td><td style="padding:5px 2px;text-align:center;color:#555;font-weight:600;">46.4%</td><td style="padding:5px 2px;text-align:center;color:#555;font-weight:600;">50.5%</td><td style="padding:5px 2px;text-align:center;color:#555;font-weight:600;">48.2%</td><td style="padding:5px 2px;text-align:center;color:#555;font-weight:600;">56.0%</td><td style="padding:5px 2px;text-align:center;color:#555;font-weight:600;">54.9%</td><td style="padding:5px 2px;text-align:center;color:#e65100;font-weight:700;">59.1%</td><td style="padding:5px 2px;text-align:center;color:#e65100;font-weight:700;">64.1%</td><td style="padding:5px 2px;text-align:center;color:#e65100;font-weight:700;">61.3%</td><td style="padding:5px 2px;text-align:center;color:#e65100;font-weight:700;">59.8%</td><td style="padding:5px 2px;text-align:center;color:#e65100;font-weight:700;">54.5%</td><td style="padding:5px 2px;text-align:center;color:#e65100;font-weight:700;">55.5%</td></tr>
+      <tr><td style="padding:5px 8px;font-weight:700;color:#1565c0;font-size:12px;white-space:nowrap;">👤 客户数</td><td style="padding:5px 2px;text-align:center;color:#555;font-size:11px;font-weight:600;">360</td><td style="padding:5px 2px;text-align:center;color:#555;font-size:11px;font-weight:600;">310</td><td style="padding:5px 2px;text-align:center;color:#555;font-size:11px;font-weight:600;">359</td><td style="padding:5px 2px;text-align:center;color:#555;font-size:11px;font-weight:600;">436</td><td style="padding:5px 2px;text-align:center;color:#555;font-size:11px;font-weight:600;">680</td><td style="padding:5px 2px;text-align:center;color:#555;font-size:11px;font-weight:600;">835</td><td style="padding:5px 2px;text-align:center;color:#555;font-size:11px;font-weight:600;">1,047</td><td style="padding:5px 2px;text-align:center;color:#555;font-size:11px;font-weight:600;">1,069</td><td style="padding:5px 2px;text-align:center;color:#555;font-size:11px;font-weight:600;">1,115</td><td style="padding:5px 2px;text-align:center;color:#555;font-size:11px;font-weight:600;">1,549</td><td style="padding:5px 2px;text-align:center;color:#555;font-size:11px;font-weight:600;">1,936</td><td style="padding:5px 2px;text-align:center;color:#555;font-size:11px;font-weight:600;">2,277</td><td style="padding:5px 2px;text-align:center;color:#e65100;font-size:11px;font-weight:700;">2,337</td><td style="padding:5px 2px;text-align:center;color:#e65100;font-size:11px;font-weight:700;">1,964</td><td style="padding:5px 2px;text-align:center;color:#e65100;font-size:11px;font-weight:700;">2,182</td><td style="padding:5px 2px;text-align:center;color:#e65100;font-size:11px;font-weight:700;">2,397</td><td style="padding:5px 2px;text-align:center;color:#e65100;font-size:11px;font-weight:700;">2,025</td><td style="padding:5px 2px;text-align:center;color:#e65100;font-size:11px;font-weight:700;">1,661</td></tr>
     </tbody>
   </table>
+  <div style="font-size:11px;color:#aaa;padding-left:8px;margin-top:4px;">注：链路数据基于一中心整体链路结构同比推算（预包装占一中心约22.9%）；客户数为等比例估算。</div>
 </div>
 
 <div class="table-wrap">
-  <div class="table-hd">&#x1F517; 各链路季度日耗（万元/天）</div>
-  <table><thead><tr><th class="left">投放链路</th><th>25Q2 日耗</th><th>26Q1 日耗</th><th>26Q2 日耗</th><th>同比</th><th>环比</th></tr></thead><tbody>
-    <tr><td class="left">直播 <span class="badge bd-r">最大体量</span></td><td>82.5</td><td>112.8</td><td><strong>138.5</strong></td><td><span class="pos">+67.9%</span></td><td><span class="pos">+22.8%</span></td></tr>
-    <tr><td class="left">小店 <span class="badge bd-r">第一增长引擎</span></td><td>55.3</td><td>92.4</td><td><strong>118.6</strong></td><td><span class="pos">+114.5%</span></td><td><span class="pos">+28.4%</span></td></tr>
-    <tr><td class="left">直购 <span class="badge bd-o">Q2反弹</span></td><td>82.8</td><td>72.5</td><td><strong>88.2</strong></td><td><span class="pos">+6.5%</span></td><td><span class="pos">+21.7%</span></td></tr>
-    <tr><td class="left">导购加粉</td><td>28.6</td><td>22.3</td><td><strong>25.8</strong></td><td><span class="neg">-9.8%</span></td><td><span class="pos">+15.7%</span></td></tr>
-    <tr><td class="left">CID <span class="badge bd-g">持续萎缩</span></td><td>29.8</td><td>24.5</td><td><strong>7.2</strong></td><td><span class="neg">-75.8%</span></td><td><span class="neg">-70.6%</span></td></tr>
-    <tr><td class="left">品宣</td><td>0.8</td><td>1.5</td><td><strong>1.3</strong></td><td><span class="pos">+62.5%</span></td><td><span class="neg">-13.3%</span></td></tr>
-    <tr><td class="left">其他</td><td>0.4</td><td>0.5</td><td><strong>0.6</strong></td><td><span class="pos">+50.0%</span></td><td><span class="pos">+20.0%</span></td></tr>
-    <tr class="total-row"><td class="left">合计</td><td>280.2</td><td>326.5</td><td>380.2</td><td><span class="pos">+35.7%</span></td><td><span class="pos">+16.4%</span></td></tr>
-  </tbody></table>
+  <div class="table-hd">🔗 各链路季度日耗（万元/天）<span class="est-tag">基于一中心整体链路结构同比推算</span></div>
+  <table><thead><tr><th class="left">投放链路</th><th>25Q2 日耗</th><th>26Q1 日耗</th><th>26Q2 日耗</th><th>同比</th><th>环比</th></tr></thead><tbody><tr><td class="left">小店 <span class="badge bd-r">高增长</span></td><td>43.2</td><td>60.1</td><td><strong>67.1</strong></td><td><span class="pos">+55.3%</span></td><td><span class="pos">+11.6%</span></td></tr><tr><td class="left">直播 <span class="badge bd-r">最大体量</span></td><td>47.2</td><td>133.4</td><td><strong>135.6</strong></td><td><span class="pos">+187.2%</span></td><td><span class="pos">+1.6%</span></td></tr><tr><td class="left">直购 <span class="badge bd-o">环比反弹</span></td><td>75.6</td><td>63.7</td><td><strong>80.8</strong></td><td><span class="pos">+6.9%</span></td><td><span class="pos">+26.9%</span></td></tr><tr><td class="left">导购加粉</td><td>55.9</td><td>28.7</td><td><strong>45.0</strong></td><td><span class="neg">-19.6%</span></td><td><span class="pos">+56.8%</span></td></tr><tr><td class="left">CID <span class="badge bd-g">持续萎缩</span></td><td>71.9</td><td>26.3</td><td><strong>25.2</strong></td><td><span class="neg">-64.9%</span></td><td><span class="neg">-3.9%</span></td></tr><tr><td class="left">品宣</td><td>4.5</td><td>4.8</td><td><strong>5.1</strong></td><td><span class="pos">+12.1%</span></td><td><span class="pos">+6.7%</span></td></tr><tr><td class="left">其他</td><td>1.0</td><td>0.7</td><td><strong>1.2</strong></td><td><span class="pos">+26.2%</span></td><td><span class="pos">+65.6%</span></td></tr><tr class="total-row"><td class="left">合计</td><td>291.3</td><td>340.9</td><td>359.8</td><td><span class="pos">+23.5%</span></td><td><span class="pos">+5.5%</span></td></tr></tbody></table>
 </div>
 
 <div class="insight">
-  <div class="ttl">&#x1F4CC; 链路洞察</div>
+  <div class="ttl">📌 链路洞察（基于一中心整体链路结构的预包装赛道拆解）</div>
   <ul>
-    <li><strong>直播</strong>日耗 138.5 万/天（占比36.4%），为预包装赛道第一大链路，同比+67.9%。增量主要来自<strong>休闲食品</strong>（+28.4万/天）、<strong>粮油调味速食</strong>（+12.6万/天）。&#x1F4CC;增量Top客户：三只松鼠（+12.5万/天）、良品铺子（+9.8万/天）；减量：来伊份（-2.8万/天）。</li>
-    <li><strong>小店</strong>日耗 118.6 万/天，同比+114.5%，为增速最快的核心链路。增量主要来自<strong>休闲食品</strong>（+31.6万/天）、<strong>宠物</strong>（+15.8万/天）。&#x1F4CC;增量Top客户：洽洽食品（+8.7万/天）、上海宠幸（+6.3万/天）；减量：百草味（-2.4万/天）。</li>
-    <li><strong>直购</strong>日耗 88.2 万/天，同比+6.5%，环比+21.7%。增量主要来自<strong>粮油调味速食</strong>（+8.2万/天）、<strong>冲调品</strong>（+5.6万/天）。&#x1F4CC;增量Top客户：金龙鱼（+4.8万/天）、雀巢（+3.2万/天）。</li>
-    <li><strong>导购加粉</strong>日耗 25.8 万/天，同比-9.8%，环比+15.3%。增量主要来自<strong>冲调品</strong>（+3.5万/天）。&#x1F4CC;增量Top客户：海天味业（+2.1万/天）、麦斯威尔（+1.6万/天）。</li>
-    <li><strong>CID</strong>日耗 7.2 万/天，同比-75.8%，客户加速向闭环链路迁移，预包装赛道闭环率已高达73.2%，远超一中心平均水平。</li>
+    <li><strong>小店</strong>：预包装赛道中小店链路增速显著。从一中心原始数据，休闲食品为小店贡献 +11.5 万/天增量，粮油调味速食贡献 +5.8 万/天，合计 +17.3 万/天，占全中心小店增量的显著比例。</li>
+    <li><strong>直播</strong>：预包装赛道在直播链路面临挑战。粮油调味速食在直播链路减少 -17.3 万/天（一中心口径），是直播链路中降幅最大的赛道之一，反映品类从直播向小店迁移的趋势。</li>
+    <li><strong>CID</strong>：预包装赛道在 CID 链路加速萎缩，休闲食品 -15.5 万/天（一中心口径），客户继续从 CID 迁移至闭环链路（小店+直播）。</li>
+    <li><strong>品宣</strong>：休闲食品品宣消耗 +2.7 万/天，但粮油调味速食品宣 -2.6 万/天，两相抵消，预包装品宣整体持平。</li>
+    <li><strong>链路数据说明</strong>：由于原始数据源（0616_一中心月会.xlsx）未提供「赛道 × 链路」交叉维度的月度拆解，链路表中各数值基于预包装赛道占一中心日耗比例（22.9%）同比推算，仅供参考。精准的预包装赛道链路拆解需从原始数据源专项提取。</li>
   </ul>
 </div>
 
 <div class="sub-title">1-2 子品类分析</div>
 
 <div class="table-wrap">
-  <div class="table-hd">&#x1F3ED; 预包装子品类 · 日耗（万元/天）及同比/环比</div>
-  <table><thead><tr><th class="left">子品类</th><th>25Q2 日耗</th><th>26Q1 日耗</th><th>26Q2 日耗</th><th>同比</th><th>环比</th><th>26Q2闭环%</th></tr></thead><tbody>
-    <tr><td class="left">休闲食品 <span class="badge bd-r">体量最大+高增长</span></td><td>118.5</td><td>145.2</td><td><strong>185.3</strong></td><td><span class="pos">+56.4%</span></td><td><span class="pos">+27.6%</span></td><td class="neg">76.2%<div class="bar-bg"><div class="bar-fill" style="width:76%;background:#e65100"></div></div></td></tr>
-    <tr><td class="left">粮油调味速食 <span class="badge bd-o">第二大体量</span></td><td>89.2</td><td>96.7</td><td><strong>102.4</strong></td><td><span class="pos">+14.8%</span></td><td><span class="pos">+5.9%</span></td><td class="neg">71.8%<div class="bar-bg"><div class="bar-fill" style="width:71%;background:#e65100"></div></div></td></tr>
-    <tr><td class="left">宠物 <span class="badge bd-r">增速标杆</span></td><td>19.2</td><td>45.8</td><td><strong>51.2</strong></td><td><span class="pos">+166.4%</span></td><td><span class="pos">+11.8%</span></td><td class="neg">73.6%<div class="bar-bg"><div class="bar-fill" style="width:73%;background:#2e7d32"></div></div></td></tr>
-    <tr><td class="left">冲调品</td><td>53.3</td><td>38.8</td><td><strong>41.3</strong></td><td><span class="neg">-22.5%</span></td><td><span class="pos">+6.4%</span></td><td class="pos">58.2%<div class="bar-bg"><div class="bar-fill" style="width:58%;background:#e65100"></div></div></td></tr>
-    <tr class="total-row"><td class="left">合计</td><td>280.2</td><td>326.5</td><td>380.2</td><td><span class="pos">+35.7%</span></td><td><span class="pos">+16.4%</span></td><td class="pos">73.2%</td></tr>
+  <div class="table-hd">🏭 预包装子品类 · 日耗（万元/天）及同比/环比</div>
+  <table><thead><tr><th class="left">子品类</th><th>25Q2 日耗</th><th>26Q1 日耗</th><th>26Q2 日耗</th><th>同比</th><th>环比</th><th>26Q2闭环%</th></tr></thead>
+  <tbody>
+    <tr><td class="left">粮油调味速食 <span class="badge bd-o">体量最大</span></td><td>128.4</td><td>173.5</td><td><strong>165.7</strong></td><td><span class="pos">+29.0%</span></td><td><span class="neg">-4.5%</span></td><td class="neg">85.0%<div class="bar-bg"><div class="bar-fill" style="width:85%;background:#2e7d32"></div></div></td></tr>
+    <tr><td class="left">休闲食品</td><td>114.5</td><td>117.9</td><td><strong>120.6</strong></td><td><span class="pos">+5.3%</span></td><td><span class="pos">+2.3%</span></td><td class="neg">81.3%<div class="bar-bg"><div class="bar-fill" style="width:81%;background:#2e7d32"></div></div></td></tr>
+    <tr><td class="left">冲调品 <span class="badge bd-o">环比回升</span></td><td>36.8</td><td>29.1</td><td><strong>42.6</strong></td><td><span class="pos">+15.8%</span></td><td><span class="pos">+46.4%</span></td><td class="neg">94.2%<div class="bar-bg"><div class="bar-fill" style="width:94%;background:#2e7d32"></div></div></td></tr>
+    <tr><td class="left">宠物 <span class="badge bd-r">高增长</span></td><td>11.6</td><td>20.4</td><td><strong>30.9</strong></td><td><span class="pos">+166.4%</span></td><td><span class="pos">+51.5%</span></td><td class="neg">94.6%<div class="bar-bg"><div class="bar-fill" style="width:94%;background:#2e7d32"></div></div></td></tr>
+    <tr class="total-row"><td class="left">预包装合计</td><td>291.3</td><td>340.9</td><td>359.8</td><td><span class="pos">+23.5%</span></td><td><span class="pos">+5.5%</span></td><td>—</td></tr>
   </tbody></table>
 </div>
 
-<div class="sub-title" style="margin-top:20px;">各子品类 · 26Q2 头部客户（Top 5）</div>
+<div class="sub-title" style="margin-top:20px;">高增长子品类 · 26Q2 头部客户（Top 5）</div>
+<div style="margin-bottom:16px;font-size:12px;color:#888;padding-left:2px;">
+  注：以下仅展示宠物赛道 Top 5（原始数据源包含该细分数据）。休闲食品、粮油调味速食、冲调品三个子品类的 Top 5 客户明细需从原始数据源专项提取，暂未在本次报告中呈现。
+</div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;">
-  <div class="table-wrap"><div class="table-hd" style="background:#e8f5e9;">&#x1F36A; 休闲食品（同比+56.4%，占比48.7%）</div><table><thead><tr><th class="left">客户简称</th><th>26Q2消耗（万）</th><th>同比</th><th>环比</th></tr></thead><tbody>
-    <tr><td class="left">三只松鼠</td><td>2,856.4</td><td><span class="pos">+187.3%</span></td><td><span class="pos">+42.1%</span></td></tr>
-    <tr><td class="left">良品铺子</td><td>2,140.7</td><td><span class="pos">+156.8%</span></td><td><span class="pos">+28.5%</span></td></tr>
-    <tr><td class="left">洽洽食品</td><td>1,583.2</td><td><span class="pos">+312.5%</span></td><td><span class="pos">+35.7%</span></td></tr>
-    <tr><td class="left">盐津铺子</td><td>1,246.9</td><td><span class="pos">新进&#x2191;</span></td><td><span class="pos">+89.4%</span></td></tr>
-    <tr><td class="left">百草味</td><td>987.5</td><td><span class="neg">-12.3%</span></td><td><span class="neg">-5.8%</span></td></tr>
-  </tbody></table></div>
-  <div class="table-wrap"><div class="table-hd" style="background:#fff3e0;">&#x1F35C; 粮油调味速食（同比+14.8%，占比26.9%）</div><table><thead><tr><th class="left">客户简称</th><th>26Q2消耗（万）</th><th>同比</th><th>环比</th></tr></thead><tbody>
-    <tr><td class="left">白象食品</td><td>1,834.6</td><td><span class="pos">+423.7%</span></td><td><span class="pos">+52.8%</span></td></tr>
-    <tr><td class="left">康师傅</td><td>1,256.3</td><td><span class="pos">+89.4%</span></td><td><span class="pos">+18.2%</span></td></tr>
-    <tr><td class="left">金龙鱼</td><td>892.4</td><td><span class="pos">+55.6%</span></td><td><span class="pos">+22.9%</span></td></tr>
-    <tr><td class="left">海天味业</td><td>723.1</td><td><span class="pos">+42.3%</span></td><td><span class="pos">+15.4%</span></td></tr>
-    <tr><td class="left">统一</td><td>618.7</td><td><span class="pos">+34.2%</span></td><td><span class="neg">-3.5%</span></td></tr>
-  </tbody></table></div>
-  <div class="table-wrap"><div class="table-hd" style="background:#e3f2fd;">&#x1F431; 宠物（同比+166.4%，占比13.5%）</div><table><thead><tr><th class="left">客户简称</th><th>26Q2消耗（万）</th><th>同比</th><th>环比</th></tr></thead><tbody>
-    <tr><td class="left">上海宠幸宠物用品有限公司</td><td>1,055.3</td><td><span class="pos">+496.2%</span></td><td><span class="pos">+7.9%</span></td></tr>
-    <tr><td class="left">山东速酷宠物用品有限公司</td><td>115.8</td><td><span class="pos">+1681.5%</span></td><td><span class="pos">+88.3%</span></td></tr>
-    <tr><td class="left">郑州宠餐餐生物科技有限公司</td><td>114.9</td><td><span class="pos">新进&#x2191;</span></td><td><span class="pos">+489.2%</span></td></tr>
-    <tr><td class="left">广州斯宾科技有限公司</td><td>79.6</td><td><span class="pos">+2174.3%</span></td><td><span class="pos">+61.1%</span></td></tr>
-    <tr><td class="left">麦富迪</td><td>68.2</td><td><span class="pos">新进&#x2191;</span></td><td><span class="pos">+125.8%</span></td></tr>
-  </tbody></table></div>
-  <div class="table-wrap"><div class="table-hd" style="background:#fff8e1;">&#x2615; 冲调品（同比-22.5%，占比10.9%）</div><table><thead><tr><th class="left">客户简称</th><th>26Q2消耗（万）</th><th>同比</th><th>环比</th></tr></thead><tbody>
-    <tr><td class="left">雀巢集团</td><td>1,208.9</td><td><span class="neg">-8.5%</span></td><td><span class="pos">+12.3%</span></td></tr>
-    <tr><td class="left">麦斯威尔</td><td>645.2</td><td><span class="neg">-15.2%</span></td><td><span class="neg">-3.8%</span></td></tr>
-    <tr><td class="left">香飘飘</td><td>412.3</td><td><span class="neg">-28.7%</span></td><td><span class="pos">+8.4%</span></td></tr>
-    <tr><td class="left">永和豆浆</td><td>287.6</td><td><span class="neg">-35.6%</span></td><td><span class="neg">-12.1%</span></td></tr>
-    <tr><td class="left">五谷磨房</td><td>185.4</td><td><span class="pos">+12.5%</span></td><td><span class="pos">+18.2%</span></td></tr>
-  </tbody></table></div>
+  <div class="table-wrap">
+    <div class="table-hd" style="background:#e8f5e9;">🌿 宠物（同比+166.4%）⭐ 唯一有明细数据的子品类</div>
+    <table><thead><tr><th class="left">客户简称</th><th>26Q2消耗（万）</th><th>同比</th><th>环比</th></tr></thead>
+    <tbody>
+      <tr><td class="left">上海宠幸宠物用品有限公司</td><td>1,055.3</td><td><span class="pos">+496.2%</span></td><td><span class="pos">+7.9%</span></td></tr>
+      <tr><td class="left">山东速酷宠物用品有限公司</td><td>115.8</td><td><span class="pos">+1681.5%</span></td><td><span class="pos">+88.3%</span></td></tr>
+      <tr><td class="left">郑州宠餐餐生物科技有限公司</td><td>114.9</td><td><span class="pos">新进↑</span></td><td><span class="pos">+489.2%</span></td></tr>
+      <tr><td class="left">广州斯宾科技有限公司</td><td>79.6</td><td><span class="pos">+2174.3%</span></td><td><span class="pos">+61.1%</span></td></tr>
+      <tr><td class="left">临沂茸记宠物食品有限公司</td><td>45.0</td><td><span class="neg">-20.5%</span></td><td><span class="neg">-0.9%</span></td></tr>
+    </tbody></table>
+  </div>
+  <div style="background:#fff;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,.06);padding:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border:1px dashed #e0e0e0;">
+    <div style="font-size:40px;margin-bottom:12px;">📋</div>
+    <div style="font-size:14px;font-weight:600;color:#555;margin-bottom:6px;">其余子品类 Top 5 数据待补充</div>
+    <div style="font-size:12px;color:#999;line-height:1.6;">
+      休闲食品、粮油调味速食、冲调品的<br>头部客户明细需从原始数据源<br>（0616_一中心月会.xlsx）专项提取
+    </div>
+  </div>
 </div>
 
-<div class="insight"><div class="ttl">&#x1F4CC; 子品类洞察</div><ul>
-  <li><strong>休闲食品</strong>体量最大（占比48.7%），同比+56.4%，环比+27.6%，为预包装赛道绝对主力引擎。三只松鼠、良品铺子双龙头格局稳固，合计占子品类消耗的35%。</li>
-  <li><strong>宠物</strong>同比+166.4%为全行业增速标杆，闭环率73.6%，上海宠幸Q2季度消耗突破1000万，新兴品牌（速酷、宠餐餐、斯宾）增速惊人。</li>
-  <li><strong>粮油调味速食</strong>体量第二（占比26.9%），白象、康师傅、金龙鱼三足鼎立，环比增速放缓至+5.9%，品类趋于成熟。</li>
-  <li><strong>冲调品</strong>唯一负增长子品类（同比-22.5%），消费者偏好向即饮和现制迁移，雀巢、麦斯威尔等传统品牌持续承压，五谷磨房等健康冲调品类逆势增长。</li>
-  <li>预包装整体闭环率73.2%，其中休闲食品最高（76.2%），冲调品最低（58.2%），仍有CID迁移和闭环建设空间。</li>
+<div class="insight"><div class="ttl">📌 子品类洞察</div><ul>
+  <li><strong>粮油调味速食</strong>体量最大（165.7万元/天，占比46.1%），同比+29.0%增长强劲，但环比-4.5%略有回落。闭环率85.0%，已在较高水平。从一中心链路洞察，该品类在直播链路减少17.3万/天，小店增量+5.8万/天，存在从直播向小店的结构性迁移。</li>
+  <li><strong>休闲食品</strong>稳健增长（120.6万元/天，占比33.5%），同比+5.3%、环比+2.3%，增速温和但体量稳固。闭环率81.3%。小店贡献+11.5万/天增量，是休闲食品增长的核心驱动链路。品宣链路休闲食品也贡献+2.7万/天增量。</li>
+  <li><strong>宠物</strong>为增速最快子品类，同比+166.4%、环比+51.5%，日耗从11.6万快速攀升至30.9万。闭环率94.6%为四个子品类最高。头部客户上海宠幸独占1,055.3万季度消耗，远超其他客户。</li>
+  <li><strong>冲调品</strong>环比大幅回升+46.4%，从26Q1的29.1万/天反弹至42.6万/天。闭环率94.2%，几乎全部投放已切换至闭环链路。</li>
 </ul></div>
 
-<!-- ============ SECTION 2: 闭环投放客户分析 ============ -->
-<div class="section-title" style="margin-top:48px;"><span class="bar"></span><span class="num-badge">2</span>26Q2闭环投放客户分析</div>
+<div class="section-title" style="margin-top:48px;"><span class="bar"></span><span class="num-badge">2</span>26Q2预包装赛道闭环投放客户分析</div>
 
-<div class="sub-title">2-1 闭环投放客户数</div>
+<div class="sub-title">2-1 闭环投放客户数 <span class="est-tag">基于一中心整体结构同比推算</span></div>
 
 <div class="table-wrap">
-  <div class="table-hd">&#x1F4CA; 闭环客户数 &amp; ARPU 汇总（26Q2）</div>
+  <div class="table-hd">📊 闭环客户数 &amp; ARPU 汇总（26Q2，预包装赛道估算）</div>
   <table><thead><tr><th class="left">类型</th><th>投放客户数（家）</th><th>占总闭环客户比</th><th>季度ARPU（万元/客户）</th><th>日均ARPU（元/客户/天）</th><th>26Q2消耗占比</th></tr></thead>
   <tbody>
-    <tr><td class="left">仅全域通（QYT）</td><td style="font-size:15px;font-weight:700;color:#1565c0;">4,326</td><td>70.3%</td><td><strong>0.2</strong></td><td>31</td><td><span style="color:#2e7d32;font-weight:600;">3.4%</span><div class="bar-bg"><div class="bar-fill" style="width:3%;background:#1565c0"></div></div></td></tr>
-    <tr><td class="left">仅ADQ</td><td style="font-size:15px;font-weight:700;color:#e65100;">685</td><td>11.1%</td><td><strong>13.2</strong></td><td>1,714</td><td><span style="color:#c62828;font-weight:600;">31.0%</span><div class="bar-bg"><div class="bar-fill" style="width:31%;background:#e65100"></div></div></td></tr>
-    <tr><td class="left">双投（ADQ+QYT）</td><td style="font-size:15px;font-weight:700;color:#2e7d32;">1,139</td><td>18.5%</td><td><strong>16.7</strong></td><td>2,165</td><td><span style="color:#c62828;font-weight:600;">65.6%</span><div class="bar-bg"><div class="bar-fill" style="width:65%;background:#2e7d32"></div></div></td></tr>
-    <tr class="total-row"><td class="left">合计（去重）</td><td style="font-size:15px;font-weight:700;color:#333;">6,150</td><td>100%</td><td><strong>4.8</strong></td><td>618</td><td>100%</td></tr>
+    <tr><td class="left">仅全域通（QYT）</td><td style="font-size:15px;font-weight:700;color:#1565c0;">1,928</td><td>64.6%</td><td><strong>0.3</strong></td><td>39</td><td><span style="color:#2e7d32;font-weight:600;">3.7%</span><div class="bar-bg"><div class="bar-fill" style="width:3%;background:#1565c0"></div></div></td></tr>
+    <tr><td class="left">仅ADQ</td><td style="font-size:15px;font-weight:700;color:#e65100;">353</td><td>11.8%</td><td><strong>16.7</strong></td><td>2,169</td><td><span style="color:#c62828;font-weight:600;">37.8%</span><div class="bar-bg"><div class="bar-fill" style="width:37%;background:#e65100"></div></div></td></tr>
+    <tr><td class="left">双投（ADQ+QYT）</td><td style="font-size:15px;font-weight:700;color:#2e7d32;">704</td><td>23.6%</td><td><strong>13.0</strong></td><td>1,682</td><td><span style="color:#c62828;font-weight:600;">58.4%</span><div class="bar-bg"><div class="bar-fill" style="width:58%;background:#2e7d32"></div></div></td></tr>
+    <tr class="total-row"><td class="left">合计（去重）</td><td style="font-size:15px;font-weight:700;color:#333;">2,985</td><td>100%</td><td><strong>5.2</strong></td><td>678</td><td>100%</td></tr>
   </tbody></table>
 </div>
 
-<div class="insight"><div class="ttl">&#x1F4CC; 闭环客户洞察</div><ul>
-  <li><strong>仅QYT客户</strong>数量最多（4,326家，占70.3%），但季度ARPU仅0.2万元（日均31元），以长尾中小品牌和经销商为主，全域通以低门槛规模覆盖见长。</li>
-  <li><strong>仅ADQ客户</strong>685家（11.1%），季度ARPU达13.2万元（日均1,714元），是预包装赛道的高价值单投群体，以成熟品牌为主。</li>
-  <li><strong>双投客户</strong>1,139家（18.5%），季度ARPU最高达16.7万元；仅ADQ与双投客户合计贡献闭环消耗的 <strong>96.6%</strong>，是消耗核心群体。</li>
-  <li>26Q2预包装闭环投放客户合计 <strong>6,150 家</strong>（去重），整体日均ARPU为618元/天，接近食品饮料一中心整体水平（678元/天）。</li>
+<div class="insight"><div class="ttl">📌 闭环客户洞察</div><ul>
+  <li>以上数据基于预包装赛道占一中心日耗比例（22.9%）同比推算，ARPU 结构沿用一中心整体分布。</li>
+  <li>精准的预包装赛道闭环客户数、ARPU、各子品类客户清单需从原始数据源专项提取。预估预包装赛道闭环投放客户约 <strong>2,985 家</strong>（去重）。</li>
+  <li>仅ADQ与双投客户合计贡献闭环消耗的约 <strong>96.2%</strong>，是消耗核心群体。</li>
 </ul></div>
 
-<div class="sub-title">2-2 闭环有效新客数（连续六季度趋势）</div>
+<div class="sub-title">2-2 闭环有效新客数 <span class="est-tag">暂无预包装赛道维度数据</span></div>
 <div style="font-size:12px;color:#888;margin-bottom:12px;padding-left:2px;">
-  新客定义：千门槛口径——自前一年1月1日起至前一季度无闭环消耗，本季度闭环消耗超过1000元的客户简称数量；不限新锐；范围：预包装赛道（休闲食品/粮油调味速食/冲调品/宠物）
+  新客口径：千门槛口径。原始数据源（增长组进度追踪-0615.xlsx）新客数据范围为全食品饮料行业（含一中心&amp;二中心），未按赛道拆分，无法提取预包装赛道维度新客数。
 </div>
 
 <div class="trend-wrap">
-  <div class="trend-title">&#x1F4C8; 闭环有效新客数 · 连续6季度趋势</div>
-  <div class="trend-bars">
-    <div class="trend-bar-wrap"><div class="trend-bar" style="background:linear-gradient(180deg,#90caf9,#1565c0);height:8px;"><span class="bv">58</span></div><div class="trend-bar-lbl">25Q1</div></div>
-    <div class="trend-bar-wrap"><div class="trend-bar" style="background:linear-gradient(180deg,#90caf9,#1565c0);height:32px;"><span class="bv">286</span></div><div class="trend-bar-lbl">25Q2</div></div>
-    <div class="trend-bar-wrap"><div class="trend-bar" style="background:linear-gradient(180deg,#90caf9,#1565c0);height:30px;"><span class="bv">265</span></div><div class="trend-bar-lbl">25Q3</div></div>
-    <div class="trend-bar-wrap"><div class="trend-bar" style="background:linear-gradient(180deg,#90caf9,#1565c0);height:78px;"><span class="bv">695</span></div><div class="trend-bar-lbl">25Q4</div><div class="trend-bar-sub">历史峰值</div></div>
-    <div class="trend-bar-wrap"><div class="trend-bar" style="background:linear-gradient(180deg,#a5d6a7,#2e7d32);height:48px;"><span class="bv">428</span></div><div class="trend-bar-lbl">26Q1</div></div>
-    <div class="trend-bar-wrap"><div class="trend-bar" style="background:linear-gradient(180deg,#a5d6a7,#2e7d32);height:56px;"><span class="bv">502</span></div><div class="trend-bar-lbl">26Q2</div></div>
-  </div>
-  <div style="border-top:1px dashed #e0e0e0;margin-top:14px;padding-top:10px;">
-    <table style="width:100%;border-collapse:collapse;font-size:12px;table-layout:fixed;">
-      <thead><tr><td style="width:160px;padding:5px 8px;font-weight:700;color:#555;font-size:11px;"></td><td style="text-align:center;padding:5px 4px;font-weight:600;color:#888;font-size:11px;">25Q1</td><td style="text-align:center;padding:5px 4px;font-weight:600;color:#888;font-size:11px;">25Q2</td><td style="text-align:center;padding:5px 4px;font-weight:600;color:#888;font-size:11px;">25Q3</td><td style="text-align:center;padding:5px 4px;font-weight:600;color:#888;font-size:11px;">25Q4</td><td style="text-align:center;padding:5px 4px;font-weight:700;color:#e65100;font-size:11px;">26Q1</td><td style="text-align:center;padding:5px 4px;font-weight:700;color:#e65100;font-size:11px;">26Q2</td></tr></thead>
-      <tbody>
-        <tr style="background:#f0f7ff;"><td style="padding:5px 8px;font-weight:700;color:#1565c0;font-size:12px;white-space:nowrap;">&#x1F310; 仅全域通（QYT）新客</td><td style="text-align:center;padding:5px 4px;"><span style="color:#1565c0;font-weight:600;font-size:12px;">5</span><br><span style="color:#aaa;font-size:10px;">8.6%</span></td><td style="text-align:center;padding:5px 4px;"><span style="color:#1565c0;font-weight:600;font-size:12px;">132</span><br><span style="color:#aaa;font-size:10px;">46.2%</span></td><td style="text-align:center;padding:5px 4px;"><span style="color:#1565c0;font-weight:600;font-size:12px;">72</span><br><span style="color:#aaa;font-size:10px;">27.2%</span></td><td style="text-align:center;padding:5px 4px;"><span style="color:#1565c0;font-weight:600;font-size:12px;">358</span><br><span style="color:#aaa;font-size:10px;">51.5%</span></td><td style="text-align:center;padding:5px 4px;"><span style="color:#1565c0;font-weight:700;font-size:13px;">215</span><br><span style="color:#aaa;font-size:10px;">50.2%</span></td><td style="text-align:center;padding:5px 4px;"><span style="color:#1565c0;font-weight:700;font-size:13px;">346</span><br><span style="color:#aaa;font-size:10px;">68.9%</span></td></tr>
-        <tr style="background:#fff5f5;"><td style="padding:5px 8px;font-weight:700;color:#e65100;font-size:12px;white-space:nowrap;">&#x1F4F2; 仅ADQ新客</td><td style="text-align:center;padding:5px 4px;"><span style="color:#e65100;font-weight:600;font-size:12px;">48</span><br><span style="color:#aaa;font-size:10px;">82.8%</span></td><td style="text-align:center;padding:5px 4px;"><span style="color:#e65100;font-weight:600;font-size:12px;">105</span><br><span style="color:#aaa;font-size:10px;">36.7%</span></td><td style="text-align:center;padding:5px 4px;"><span style="color:#e65100;font-weight:600;font-size:12px;">138</span><br><span style="color:#aaa;font-size:10px;">52.1%</span></td><td style="text-align:center;padding:5px 4px;"><span style="color:#e65100;font-weight:600;font-size:12px;">142</span><br><span style="color:#aaa;font-size:10px;">20.4%</span></td><td style="text-align:center;padding:5px 4px;"><span style="color:#e65100;font-weight:700;font-size:13px;">85</span><br><span style="color:#aaa;font-size:10px;">19.9%</span></td><td style="text-align:center;padding:5px 4px;"><span style="color:#e65100;font-weight:700;font-size:13px;">98</span><br><span style="color:#aaa;font-size:10px;">19.5%</span></td></tr>
-        <tr style="background:#f5fff5;"><td style="padding:5px 8px;font-weight:700;color:#2e7d32;font-size:12px;white-space:nowrap;">&#x1F517; 双投新客（ADQ+QYT）</td><td style="text-align:center;padding:5px 4px;"><span style="color:#2e7d32;font-weight:600;font-size:12px;">5</span><br><span style="color:#aaa;font-size:10px;">8.6%</span></td><td style="text-align:center;padding:5px 4px;"><span style="color:#2e7d32;font-weight:600;font-size:12px;">49</span><br><span style="color:#aaa;font-size:10px;">17.1%</span></td><td style="text-align:center;padding:5px 4px;"><span style="color:#2e7d32;font-weight:600;font-size:12px;">55</span><br><span style="color:#aaa;font-size:10px;">20.8%</span></td><td style="text-align:center;padding:5px 4px;"><span style="color:#2e7d32;font-weight:600;font-size:12px;">195</span><br><span style="color:#aaa;font-size:10px;">28.1%</span></td><td style="text-align:center;padding:5px 4px;"><span style="color:#2e7d32;font-weight:700;font-size:13px;">128</span><br><span style="color:#aaa;font-size:10px;">29.9%</span></td><td style="text-align:center;padding:5px 4px;"><span style="color:#2e7d32;font-weight:700;font-size:13px;">58</span><br><span style="color:#aaa;font-size:10px;">11.6%</span></td></tr>
-      </tbody>
-    </table>
-    <div style="font-size:11px;color:#aaa;padding-left:8px;margin-top:4px;">括号内为各类型新客占当季闭环有效新客总数比例</div>
+  <div class="trend-title">📈 闭环有效新客数 · 连续6季度趋势（全食品行业口径，仅供参考）</div>
+  <div class="trend-bars"><div class="trend-bar-wrap"><div class="trend-bar" style="background:linear-gradient(180deg,#90caf9,#1565c0);height:12px;"><span class="bv">253</span></div><div class="trend-bar-lbl">25Q1</div></div>
+<div class="trend-bar-wrap"><div class="trend-bar" style="background:linear-gradient(180deg,#90caf9,#1565c0);height:50px;"><span class="bv">1,025</span></div><div class="trend-bar-lbl">25Q2</div></div>
+<div class="trend-bar-wrap"><div class="trend-bar" style="background:linear-gradient(180deg,#90caf9,#1565c0);height:48px;"><span class="bv">987</span></div><div class="trend-bar-lbl">25Q3</div></div>
+<div class="trend-bar-wrap"><div class="trend-bar" style="background:linear-gradient(180deg,#90caf9,#1565c0);height:110px;"><span class="bv">2,256</span></div><div class="trend-bar-lbl">25Q4</div><div class="trend-bar-sub">历史峰值</div></div>
+<div class="trend-bar-wrap"><div class="trend-bar" style="background:linear-gradient(180deg,#a5d6a7,#2e7d32);height:72px;"><span class="bv">1,473</span></div><div class="trend-bar-lbl">26Q1</div></div>
+<div class="trend-bar-wrap"><div class="trend-bar" style="background:linear-gradient(180deg,#a5d6a7,#2e7d32);height:83px;"><span class="bv">1,704</span></div><div class="trend-bar-lbl">26Q2</div></div>
+</div>
+  <div style="font-size:12px;color:#999;text-align:center;margin-top:12px;padding:8px;background:#fff8e1;border-radius:8px;">
+    ⚠️ 以上为全食品饮料行业口径（含一中心&amp;二中心），预包装赛道维度新客数据暂不可得。如需精确数据，建议从增长组进度追踪表中按赛道筛选提取。
   </div>
 </div>
 
-<div class="insight"><div class="ttl">&#x1F4CC; 新客洞察</div><ul>
-  <li>26Q2预包装闭环有效新客 <strong>502 家</strong>，环比26Q1增长17.3%，同比25Q2增长 <strong>+75.5%</strong>。</li>
-  <li>25Q4新客695家为历史峰值，年末+双11大促效应显著；26Q2在618加持下保持稳健增长。</li>
-  <li>26Q2新客结构：仅QYT 346家（68.9%），仅ADQ 98家（19.5%），双投 58家（11.6%）。环比26Q1，仅QYT占比从50.2%跃升至68.9%，中小品牌通过QYT低门槛入局趋势明显。</li>
-  <li>新客增长主要驱动子品类：<strong>休闲食品</strong>（+158家）、<strong>宠物</strong>（+92家），宠物赛道新锐品牌激增为主要变量。</li>
-  <li>新客口径：千门槛（闭环消耗&gt;1000元）+ 历史干净检查 + 预包装赛道四子品类界定 + 不限新锐。</li>
+<div class="insight"><div class="ttl">📌 新客洞察</div><ul>
+  <li>预包装赛道维度的闭环新客数据需从原始数据源（增长组进度追踪-0615.xlsx）中按"休闲食品 / 粮油调味速食 / 冲调品 / 宠物"赛道标签筛选后提取。</li>
+  <li>全行业口径参考：26Q2闭环有效新客 1,704 家，环比+15.7%，同比+66.2%。</li>
+  <li>新客口径：千门槛（闭环消耗>1000元）+ 历史干净检查 + 全食品行业（含一中心&amp;二中心）+ 不限新锐。</li>
 </ul></div>
 
 </div>
 
 <div class="report-footer">
-  数据来源：预包装赛道竞价投放数据库 · 食品饮料行业 | Sell Type：竞价 | 闭环定义：小店+直播 | 生成于 2026-07-16<br>
-  架构参考：food1-bid-scan.pages.woa.com（食品饮料一中心竞价消耗扫描） · 预包装界定：休闲食品 / 粮油调味速食 / 冲调品 / 宠物
+  数据来源：0616_一中心月会.xlsx（赛道/链路/客户数据）+ 增长组进度追踪-0615.xlsx（新客数据） · 预包装赛道 = 休闲食品 + 粮油调味速食 + 冲调品 + 宠物 | Sell Type：竞价 | 闭环定义：小店+直播 | 标注"估算"的数值基于一中心整体比例同比推算 | 生成于 2026-07-16
 </div>
 
 <script>
 var chart = echarts.init(document.getElementById('linkChart'));
 var months = ["2025-01","2025-02","2025-03","2025-04","2025-05","2025-06","2025-07","2025-08","2025-09","2025-10","2025-11","2025-12","2026-01","2026-02","2026-03","2026-04","2026-05","2026-06"];
 
-var linkData = {
-  '直购':    [142.3, 128.5, 122.6, 88.6, 84.2, 75.8, 92.4, 85.2, 72.8, 78.5, 68.4, 88.2, 82.5, 62.3, 72.5, 78.6, 92.5, 102.8],
-  'CID':     [48.5,  52.3,  58.6,  32.5,  28.4,  28.2,  35.6,  32.8,  28.5,  25.4,  24.2,  22.5,  26.8,  22.4,  24.5,  8.5,   7.2,   6.5],
-  '导购加粉':[22.5,  28.3,  34.2,  26.5,  28.2,  26.4,  25.8,  23.5,  21.4,  22.8,  21.2,  19.5,  18.6,  20.2,  24.8,  23.5,  25.2,  26.8],
-  '品宣':    [1.8,   1.5,   1.2,   0.8,   0.6,   0.8,   0.6,   0.8,   1.2,   1.5,   0.8,   0.6,   1.2,   1.5,   1.5,   1.2,   1.2,   1.4],
-  '其他':    [0.8,   0.5,   0.4,   0.3,   0.4,   0.5,   0.8,   0.6,   0.2,   0.2,   0.1,   0.2,   0.4,   0.3,   0.5,   0.4,   0.6,   0.5],
-  '小店':    [18.2,  28.5,  38.6,  52.4,  55.8,  68.4,  78.5,  72.3,  68.5,  62.4,  65.8,  72.5,  82.4,  85.6,  102.5, 112.4, 118.5, 128.6],
-  '直播':    [42.5,  48.6,  52.3,  72.5,  82.4,  95.2,  105.6, 112.3, 118.5, 108.2, 112.5, 118.6, 125.4, 122.5, 115.6, 128.5, 138.2, 152.5],
+// 基于一中心整体链路数据同比缩减至预包装赛道（比例≈22.9%）
+var origData = {
+  '直购':  [147.2,126.6,124.5,81.3,77.8,67.5,90.1,79.7,67.7,71.6,62.8,83.1,82.9,48.5,58.1,70.0,84.8,93.3],
+  'CID':   [52.5,58.9,67.8,74.8,67.6,73.3,43.2,34.3,52.3,47.6,41.1,27.8,38.5,23.1,17.0,16.6,29.4,33.3],
+  '导购加粉':[25.5,59.7,55.9,54.6,59.0,54.1,54.4,53.3,40.9,44.2,37.9,32.2,21.9,20.6,42.7,41.4,45.0,51.5],
+  '品宣':  [7.7,3.0,2.9,3.1,5.2,5.2,3.2,4.4,5.7,5.5,2.7,2.8,4.3,6.2,3.9,3.5,5.5,7.1],
+  '其他':  [1.6,1.2,1.3,0.7,0.9,1.2,5.0,5.4,0.3,0.4,0.3,0.6,0.9,0.7,0.6,0.6,1.8,1.2],
+  '小店':  [1.6,3.3,7.1,33.8,35.4,60.6,86.0,64.6,59.1,50.7,59.8,56.9,67.5,51.6,60.4,66.2,63.8,75.0],
+  '直播':  [38.0,39.4,41.2,41.1,45.3,55.3,63.2,87.1,109.5,104.4,122.3,119.3,144.9,123.3,131.2,127.8,133.3,154.5]
 };
 
-var monthTotals = months.map(function(m, i){
+var monthTotals = months.map(function(m,i){
   var t = 0;
-  Object.values(linkData).forEach(function(arr){ t += arr[i]; });
+  Object.values(origData).forEach(function(arr){ t += arr[i]; });
   return Math.round(t * 10) / 10;
 });
 
 var colors = {
-  '直购':    '#9e9e9e',
-  'CID':     '#bdbdbd',
-  '导购加粉':'#d4d4d4',
-  '品宣':    '#e8e8e8',
-  '其他':    '#f0f0f0',
+  '直购':    '#757575',
+  'CID':     '#9e9e9e',
+  '导购加粉':'#bdbdbd',
+  '品宣':    '#d4d4d4',
+  '其他':    '#e8e8e8',
   '小店':    '#f57c00',
   '直播':    '#e65100'
 };
 
 var LABEL_THRESHOLD = 0.12;
 
-var series = Object.keys(linkData).map(function(name){
+var series = Object.keys(origData).map(function(name){
   return {
-    name: name,
-    type: 'bar',
-    stack: 'total',
+    name: name, type: 'bar', stack: 'total',
     emphasis: { focus: 'series' },
     itemStyle: { color: colors[name] },
     label: {
-      show: true,
-      position: 'inside',
-      fontSize: 10,
-      fontWeight: 'bold',
+      show: true, position: 'inside', fontSize: 10, fontWeight: 'bold',
       color: (name === '品宣' || name === '其他') ? '#666' : '#fff',
       formatter: function(params){
         var total = monthTotals[params.dataIndex];
@@ -299,7 +271,7 @@ var series = Object.keys(linkData).map(function(name){
         return '';
       }
     },
-    data: linkData[name]
+    data: origData[name]
   };
 });
 
@@ -326,15 +298,14 @@ var option = {
       return html;
     }
   },
-  legend: { data: Object.keys(linkData), top: 4, right: 10, itemWidth: 12, itemHeight: 12, textStyle: { fontSize: 12 } },
+  legend: { data: Object.keys(origData), top: 4, right: 10, itemWidth: 12, itemHeight: 12, textStyle: { fontSize: 12 } },
   grid: { left: 64, right: 20, top: 44, bottom: 50 },
   xAxis: { type: 'category', data: months, axisLabel: { rotate: 30, fontSize: 11, formatter: function(v){ return v.replace('2025-','25-').replace('2026-','26-'); } } },
-  yAxis: { type: 'value', name: '万元/天', nameTextStyle: { fontSize: 11, color: '#888' }, axisLabel: { fontSize: 11 }, max: function(v){ return Math.ceil(v.max * 1.12 / 100) * 100; } },
+  yAxis: { type: 'value', name: '万元/天', nameTextStyle: { fontSize: 11, color: '#888' }, axisLabel: { fontSize: 11 }, max: function(v){ return Math.ceil(v.max * 1.12 / 50) * 50; } },
   series: series
 };
 chart.setOption(option);
 window.addEventListener('resize', function(){ chart.resize(); });
 </script>
 
-</body>
-</html>
+</body></html>

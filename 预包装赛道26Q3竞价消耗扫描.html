@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>预包装赛道 2026Q3 QTD 竞价消耗扫描</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; background: #f5f6fa; color: #333; line-height: 1.6; }
+.header { background: linear-gradient(135deg, #1a237e 0%, #283593 100%); color: #fff; padding: 36px 48px; }
+.header h1 { font-size: 26px; font-weight: 700; margin-bottom: 6px; }
+.header .sub { font-size: 14px; opacity: 0.8; }
+.container { max-width: 1200px; margin: 0 auto; padding: 24px 32px; }
+.section-title { font-size: 20px; font-weight: 700; color: #1a237e; margin: 32px 0 16px; padding-bottom: 8px; border-bottom: 2px solid #e8eaf6; }
+
+/* KPI Cards */
+.kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+.kpi-card { border-radius: 12px; padding: 20px 24px; color: #fff; position: relative; overflow: hidden; }
+.kpi-card::after { content: ''; position: absolute; top: -30px; right: -30px; width: 100px; height: 100px; border-radius: 50%; background: rgba(255,255,255,0.1); }
+.kpi-card.c1 { background: linear-gradient(135deg, #1565c0, #1e88e5); }
+.kpi-card.c2 { background: linear-gradient(135deg, #2e7d32, #43a047); }
+.kpi-card.c3 { background: linear-gradient(135deg, #e65100, #f57c00); }
+.kpi-card.c4 { background: linear-gradient(135deg, #6a1b9a, #8e24aa); }
+.kpi-label { font-size: 13px; opacity: 0.9; margin-bottom: 4px; }
+.kpi-value { font-size: 32px; font-weight: 800; }
+.kpi-sub { font-size: 12px; opacity: 0.8; margin-top: 4px; }
+
+/* Sub-category KPI row */
+.subkpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+.subkpi-card { background: #fff; border-radius: 10px; padding: 18px 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.subkpi-card .name { font-size: 14px; color: #666; margin-bottom: 6px; }
+.subkpi-card .val { font-size: 22px; font-weight: 700; }
+.subkpi-card .share { font-size: 12px; color: #999; margin-top: 2px; }
+
+/* Badge */
+.bd { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; margin-left: 6px; }
+.bd-r { background: #ffebee; color: #e53935; }
+.bd-g { background: #e8f5e9; color: #2e7d32; }
+.bd-o { background: #fff3e0; color: #e65100; }
+
+/* Charts */
+.chart-box { background: #fff; border-radius: 10px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 20px; }
+.chart-box .chart-title { font-size: 15px; font-weight: 600; color: #333; margin-bottom: 12px; }
+.chart { width: 100%; height: 420px; }
+
+/* Tables */
+.tbl-wrap { overflow-x: auto; margin-bottom: 20px; }
+.tbl { width: 100%; border-collapse: collapse; font-size: 13px; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.tbl th { background: #e8eaf6; color: #1a237e; font-weight: 600; padding: 10px 14px; text-align: center; white-space: nowrap; }
+.tbl td { padding: 9px 14px; text-align: center; border-bottom: 1px solid #f0f0f0; }
+.tbl tr:nth-child(even) td { background: #fafbff; }
+.tbl .row-total td { font-weight: 700; background: #e8eaf6 !important; border-top: 2px solid #c5cae9; }
+.tbl .row-sub td:first-child { font-weight: 600; text-align: left; }
+.upr { color: #e53935; font-weight: 600; }
+.dwn { color: #2e7d32; font-weight: 600; }
+
+/* Insight cards */
+.insight-card { background: #fff; border-left: 4px solid #ffcc02; border-radius: 6px; padding: 16px 20px; margin-bottom: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.04); }
+.insight-card .ttl { font-weight: 700; font-size: 14px; color: #333; margin-bottom: 4px; }
+.insight-card .desc { font-size: 13px; color: #555; line-height: 1.7; }
+
+/* Top5 placeholder */
+.placeholder { background: #fff; border: 2px dashed #ddd; border-radius: 10px; padding: 48px; text-align: center; color: #999; margin-bottom: 20px; }
+.placeholder .ph-icon { font-size: 36px; margin-bottom: 8px; }
+.placeholder .ph-text { font-size: 14px; }
+
+/* Progress bar */
+.prog-wrap { display: flex; align-items: center; gap: 6px; }
+.prog-bar { flex: 1; height: 6px; background: #eee; border-radius: 3px; overflow: hidden; }
+.prog-fill { height: 100%; border-radius: 3px; }
+
+.footer { text-align: center; padding: 32px; color: #999; font-size: 12px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>预包装赛道 2026Q3 QTD 竞价消耗扫描</h1>
+  <div class="sub">数据范围：2026年7月1日 – 7月25日（QTD） | 售卖类型：竞价 | 子品类：休闲食品 / 冲调品 / 宠物 / 粮油调味速食 | 数据来源：adata BI</div>
+</div>
+
+<div class="container">
+
+<!-- ====== KPI 总览 ====== -->
+<div class="section-title">1. KPI 总览</div>
+<div class="kpi-row">
+  <div class="kpi-card c1">
+    <div class="kpi-label">预包装 Q3 QTD 竞价消耗</div>
+    <div class="kpi-value">13,994<span style="font-size:16px"> 万元</span></div>
+    <div class="kpi-sub">日均 559.8 万元（25天）</div>
+  </div>
+  <div class="kpi-card c2">
+    <div class="kpi-label">同比去年7月同期</div>
+    <div class="kpi-value">+50.9%</div>
+    <div class="kpi-sub">去年同期 9,136 万元</div>
+  </div>
+  <div class="kpi-card c3">
+    <div class="kpi-label">直播链路占比</div>
+    <div class="kpi-value">53.7%</div>
+    <div class="kpi-sub">消耗 7,518 万元</div>
+  </div>
+  <div class="kpi-card c4">
+    <div class="kpi-label">贸易商贡献占比</div>
+    <div class="kpi-value">69.6%</div>
+    <div class="kpi-sub">消耗 9,745 万元</div>
+  </div>
+</div>
+
+<div class="subkpi-row">
+  <div class="subkpi-card">
+    <div class="name">粮油调味速食 <span class="bd bd-g">YoY +35.6%</span></div>
+    <div class="val" style="color:#e65100">5,432<span style="font-size:14px;color:#999"> 万</span></div>
+    <div class="share">占比 38.8% | 日耗 217.3万</div>
+  </div>
+  <div class="subkpi-card">
+    <div class="name">休闲食品 <span class="bd bd-g">YoY +8.9%</span></div>
+    <div class="val" style="color:#e53935">4,489<span style="font-size:14px;color:#999"> 万</span></div>
+    <div class="share">占比 32.1% | 日耗 179.6万</div>
+  </div>
+  <div class="subkpi-card">
+    <div class="name">冲调品 <span class="bd bd-r">YoY +357.3%</span></div>
+    <div class="val" style="color:#1565c0">3,297<span style="font-size:14px;color:#999"> 万</span></div>
+    <div class="share">占比 23.6% | 日耗 131.9万</div>
+  </div>
+  <div class="subkpi-card">
+    <div class="name">宠物 <span class="bd bd-g">YoY +82.6%</span></div>
+    <div class="val" style="color:#2e7d32">776<span style="font-size:14px;color:#999"> 万</span></div>
+    <div class="share">占比 5.5% | 日耗 31.0万</div>
+  </div>
+</div>
+
+<!-- ====== 1-1 链路分析 ====== -->
+<div class="section-title">1-1 链路分析</div>
+
+<div class="chart-box">
+  <div class="chart-title">7月QTD 链路消耗构成（万元）</div>
+  <div class="chart" id="chart-link"></div>
+</div>
+
+<div class="tbl-wrap">
+<table class="tbl">
+<thead>
+<tr><th>链路</th><th>消耗（万元）</th><th>占比</th><th>日均（万元）</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:left;font-weight:600">直播</td><td>7,518.09</td><td>53.7%</td><td>300.72</td></tr>
+<tr><td style="text-align:left;font-weight:600">小店</td><td>4,288.16</td><td>30.6%</td><td>171.53</td></tr>
+<tr><td style="text-align:left;font-weight:600">CID</td><td>2,005.85</td><td>14.3%</td><td>80.23</td></tr>
+<tr><td style="text-align:left">品宣</td><td>89.15</td><td>0.6%</td><td>3.57</td></tr>
+<tr><td style="text-align:left">加粉</td><td>71.30</td><td>0.5%</td><td>2.85</td></tr>
+<tr><td style="text-align:left">直购</td><td>21.40</td><td>0.2%</td><td>0.86</td></tr>
+<tr><td style="text-align:left">其他</td><td>0.55</td><td>0.0%</td><td>0.02</td></tr>
+<tr class="row-total"><td>合计</td><td>13,994.49</td><td>100%</td><td>559.78</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="insight-card"><div class="ttl">直播一家独大，贡献过半消耗</div><div class="desc">直播链路 7月QTD 消耗 7,518万元，占比 53.7%，是预包装赛道绝对主力链路。贸易商直播消耗 5,550万元，占直播总量的 73.8%，是直播增长的核心驱动力。</div></div>
+<div class="insight-card"><div class="ttl">小店为第二大链路，CID 稳步增长</div><div class="desc">小店消耗 4,288万元（30.6%），其中粮油调味速食小店消耗 2,136万元，占小店总量的 49.8%；CID 消耗 2,006万元（14.3%），粮油调味速食 CID 消耗 1,320万元，是 CID 链路的主战场。</div></div>
+<div class="insight-card"><div class="ttl">冲调品直播占比极端高企</div><div class="desc">冲调品直播消耗 2,654万元，占冲调品总消耗的 80.5%，链路集中度显著高于其他子品类（休闲食品 60.4%、粮油调味速食 34.7%、宠物 34.5%），反映冲调品的用户决策高度依赖直播场景。</div></div>
+<div class="insight-card"><div class="ttl">宠物赛道小店链路主导</div><div class="desc">宠物小店消耗 481万元，占宠物总消耗的 62.0%，为四个子品类中小店占比最高的赛道，符合宠物行业以货架电商为主的消费习惯。</div></div>
+
+<!-- ====== 1-2 客群×链路 ====== -->
+<div class="section-title">1-2 客群×链路 7月QTD 消耗洞察</div>
+
+<div class="chart-box">
+  <div class="chart-title">客群×链路 消耗结构（万元）</div>
+  <div class="chart" id="chart-cust-link"></div>
+</div>
+
+<div class="tbl-wrap">
+<table class="tbl">
+<thead>
+<tr><th>客群</th><th>链路</th><th>26年7月QTD(万)</th><th>25年7月同期(万)</th><th>同比变化</th></tr>
+</thead>
+<tbody>
+<tr class="row-sub"><td rowspan="5" style="text-align:left">贸易商</td><td>直播</td><td>5,549.61</td><td>553.14</td><td class="upr">+903.3%</td></tr>
+<tr><td>小店</td><td>2,439.42</td><td>1,962.60</td><td class="upr">+24.3%</td></tr>
+<tr><td>CID</td><td>1,691.04</td><td>1,472.39</td><td class="upr">+14.8%</td></tr>
+<tr><td>品宣</td><td>7.00</td><td>2.63</td><td class="upr">+166.2%</td></tr>
+<tr><td>直购/加粉/其他</td><td>57.80</td><td>1,212.52</td><td class="dwn">-95.2%</td></tr>
+<tr class="row-total"><td colspan="2">贸易商 小计</td><td>9,744.87</td><td>5,203.29</td><td class="upr">+87.3%</td></tr>
+<tr class="row-sub"><td rowspan="5" style="text-align:left">新锐</td><td>直播</td><td>1,736.44</td><td>1,097.75</td><td class="upr">+58.2%</td></tr>
+<tr><td>小店</td><td>1,614.20</td><td>1,933.47</td><td class="dwn">-16.5%</td></tr>
+<tr><td>CID</td><td>251.67</td><td>397.82</td><td class="dwn">-36.7%</td></tr>
+<tr><td>品宣</td><td>2.83</td><td>0.85</td><td class="upr">+234.6%</td></tr>
+<tr><td>直购/加粉/其他</td><td>9.81</td><td>102.03</td><td class="dwn">-90.4%</td></tr>
+<tr class="row-total"><td colspan="2">新锐 小计</td><td>3,614.96</td><td>3,531.90</td><td class="upr">+2.4%</td></tr>
+<tr class="row-sub"><td rowspan="4" style="text-align:left">品牌<br><span style="font-weight:400;font-size:11px;color:#999">(国际+本土传统)</span></td><td>小店</td><td>106.56</td><td>16.11</td><td class="upr">+561.5%</td></tr>
+<tr><td>品宣</td><td>78.80</td><td>38.76</td><td class="upr">+103.3%</td></tr>
+<tr><td>CID</td><td>47.17</td><td>0.00</td><td class="upr">新增</td></tr>
+<tr><td>直播</td><td>64.02</td><td>113.33</td><td class="dwn">-43.5%</td></tr>
+<tr class="row-total"><td colspan="2">品牌 小计</td><td>311.62</td><td>201.66</td><td class="upr">+54.5%</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="insight-card"><div class="ttl">贸易商直播爆发式增长，驱动大盘同比+50.9%</div><div class="desc">贸易商直播 YoY +903%，从去年同期 553万飙升至 5,550万，是预包装赛道 7月 QTD 消耗增长的最强引擎。贸易商整体消耗同比增长 4,542万，占全品类增量（4,654万）的 97.6%。</div></div>
+<div class="insight-card"><div class="ttl">新锐品牌增长乏力，小店与 CID 承压</div><div class="desc">新锐整体 YoY 仅 +2.4%，增长几乎停滞。小店（-16.5%）和 CID（-36.7%）出现下滑，仅靠直播（+58.2%）维持正增长。新锐在流量获取上明显受到贸易商挤压。</div></div>
+<div class="insight-card"><div class="ttl">品牌客群小店爆发，CID 实现从零到有</div><div class="desc">国际品牌+本土传统客群小店消耗从 16万增长至 107万（YoY +561%），CID 消耗从零增至 47万，显示出品牌方正在积极布局腾讯生态链路，从传统品宣向效果转化转型。</div></div>
+<div class="insight-card"><div class="ttl">贸易商一家独大，客群格局向头部集中</div><div class="desc">贸易商消耗占全品类 69.6%（去年同期 57.0%），客群集中度进一步提升。新锐占比从 38.7% 下滑至 25.8%，品牌、白牌、经销商合计仅占 4.6%。</div></div>
+<div class="insight-card"><div class="ttl">Q3 开局延续高增长态势，暑期消费季叠加直播红利</div><div class="desc">Q3 暑期为休闲食品、冲调品的传统消费旺季。7月 QTD 日均消耗 560万元，在去年同期高基数上仍实现 +50.9% 增长，反映直播链路在预包装赛道的渗透仍在加速。</div></div>
+
+<!-- ====== 1-3 子品类链路拆解 ====== -->
+<div class="section-title">1-3 子品类链路拆解</div>
+
+<div class="tbl-wrap">
+<table class="tbl">
+<thead>
+<tr><th>子品类</th><th>直播(万/天)</th><th>小店(万/天)</th><th>CID(万/天)</th><th>其他(万/天)</th><th>合计(万/天)</th><th>闭环率</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td style="text-align:left;font-weight:600">休闲食品</td>
+  <td>108.46<span style="font-size:11px;color:#999"> (60.4%)</span></td>
+  <td>48.25<span style="font-size:11px;color:#999"> (26.9%)</span></td>
+  <td>20.31<span style="font-size:11px;color:#999"> (11.3%)</span></td>
+  <td>2.54<span style="font-size:11px;color:#999"> (1.4%)</span></td>
+  <td>179.56</td>
+  <td style="color:#999">待更新</td>
+</tr>
+<tr>
+  <td style="text-align:left;font-weight:600">冲调品</td>
+  <td>106.15<span style="font-size:11px;color:#999"> (80.5%)</span></td>
+  <td>18.59<span style="font-size:11px;color:#999"> (14.1%)</span></td>
+  <td>6.21<span style="font-size:11px;color:#999"> (4.7%)</span></td>
+  <td>0.94<span style="font-size:11px;color:#999"> (0.7%)</span></td>
+  <td>131.90</td>
+  <td style="color:#999">待更新</td>
+</tr>
+<tr>
+  <td style="text-align:left;font-weight:600">宠物</td>
+  <td>10.72<span style="font-size:11px;color:#999"> (34.5%)</span></td>
+  <td>19.24<span style="font-size:11px;color:#999"> (62.0%)</span></td>
+  <td>0.89<span style="font-size:11px;color:#999"> (2.9%)</span></td>
+  <td>0.19<span style="font-size:11px;color:#999"> (0.6%)</span></td>
+  <td>31.04</td>
+  <td style="color:#999">待更新</td>
+</tr>
+<tr>
+  <td style="text-align:left;font-weight:600">粮油调味速食</td>
+  <td>75.40<span style="font-size:11px;color:#999"> (34.7%)</span></td>
+  <td>85.45<span style="font-size:11px;color:#999"> (39.3%)</span></td>
+  <td>52.82<span style="font-size:11px;color:#999"> (24.3%)</span></td>
+  <td>3.62<span style="font-size:11px;color:#999"> (1.7%)</span></td>
+  <td>217.28</td>
+  <td style="color:#999">待更新</td>
+</tr>
+<tr class="row-total">
+  <td>合计</td><td>300.72</td><td>171.53</td><td>80.23</td><td>7.30</td><td>559.78</td><td style="color:#999">待更新</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<!-- ====== 1-4 子品类消耗及趋势 ====== -->
+<div class="section-title">1-4 子品类日耗及趋势</div>
+
+<div class="tbl-wrap">
+<table class="tbl">
+<thead>
+<tr><th>子品类</th><th>7月QTD消耗(万)</th><th>日均(万/天)</th><th>占比</th><th>YoY</th><th>主要链路</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td style="text-align:left;font-weight:600">粮油调味速食</td>
+  <td>5,432.11</td><td>217.28</td><td>38.8%</td><td class="upr">+35.6%</td>
+  <td style="font-size:12px">小店 39.3% · 直播 34.7% · CID 24.3%</td>
+</tr>
+<tr>
+  <td style="text-align:left;font-weight:600">休闲食品</td>
+  <td>4,488.99</td><td>179.56</td><td>32.1%</td><td class="upr">+8.9%</td>
+  <td style="font-size:12px">直播 60.4% · 小店 26.9% · CID 11.3%</td>
+</tr>
+<tr>
+  <td style="text-align:left;font-weight:600">冲调品</td>
+  <td>3,297.43</td><td>131.90</td><td>23.6%</td><td class="upr">+357.3%</td>
+  <td style="font-size:12px">直播 80.5% · 小店 14.1%</td>
+</tr>
+<tr>
+  <td style="text-align:left;font-weight:600">宠物</td>
+  <td>775.97</td><td>31.04</td><td>5.5%</td><td class="upr">+82.6%</td>
+  <td style="font-size:12px">小店 62.0% · 直播 34.5%</td>
+</tr>
+<tr class="row-total">
+  <td>合计</td><td>13,994.49</td><td>559.78</td><td>100%</td><td class="upr">+50.9%</td><td>直播 53.7% · 小店 30.6% · CID 14.3%</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="insight-card"><div class="ttl">粮油调味速食：体量最大，链路分布最均衡</div><div class="desc">以 5,432万元 / 日均 217万元领跑四品类，小店（39.3%）、直播（34.7%）、CID（24.3%）三链路均衡发力，YoY +35.6%，是预包装赛道最稳健的基本盘。</div></div>
+<div class="insight-card"><div class="ttl">冲调品：同比增长最猛烈，直播单链路驱动</div><div class="desc">YoY +357.3%，从去年同期 711万增至 3,297万，其中直播链路贡献了 80.5% 的消耗。Q3 暑期是冲调品（茶饮、咖啡、冲饮）消费旺季，直播场景天然契合冲动消费决策，增长动能充沛。</div></div>
+<div class="insight-card"><div class="ttl">休闲食品：直播主导，增速温和</div><div class="desc">消耗 4,489万元，YoY +8.9% 相对温和。直播占比 60.4% 是核心链路，但新锐品牌休闲食品小店消耗同比 -64.0%，表明休闲食品新锐在小店场景的投放正在收缩。</div></div>
+<div class="insight-card"><div class="ttl">宠物：体量最小但增速亮眼，小店为王</div><div class="desc">YoY +82.6%，小店占比 62.0% 反映宠物消费的货架电商属性。新锐品牌宠物消耗增长尤为强劲（YoY +91.8%），其中新锐宠物小店从 65万增至 217万（+235%）。</div></div>
+
+<!-- ====== 2. 闭环有效新客分析 ====== -->
+<div class="section-title">2. 闭环有效新客分析</div>
+<div class="placeholder">
+  <div class="ph-icon">📊</div>
+  <div class="ph-text">闭环有效新客数据待 adata BI 导出后更新</div>
+  <div style="font-size:12px;color:#bbb;margin-top:4px">含闭环有效新客（千门槛）KPI、季度趋势、成交路径拆解等</div>
+</div>
+
+<!-- ====== 3. 重点客户消耗 ====== -->
+<div class="section-title">3. 重点客户消耗</div>
+<div class="placeholder">
+  <div class="ph-icon">🏢</div>
+  <div class="ph-text">Top5 消耗客户数据待 adata BI 导出后更新</div>
+  <div style="font-size:12px;color:#bbb;margin-top:4px">含各子品类 Top3 客户消耗、同比、环比、链路占比等</div>
+</div>
+
+</div>
+
+<div class="footer">
+  预包装赛道 2026Q3 QTD 竞价消耗扫描 | 数据来源：adata BI | 生成时间：2026年7月28日
+</div>
+
+<script>
+// ========== Link breakdown chart ==========
+(function(){
+  var dom = document.getElementById('chart-link');
+  var chart = echarts.init(dom);
+  var option = {
+    tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+    legend: { bottom: 0, textStyle: { fontSize: 12 } },
+    grid: { left: 60, right: 40, top: 30, bottom: 40 },
+    xAxis: { type: 'category', data: ['7月QTD'], axisLabel: { fontSize: 12 } },
+    yAxis: { type: 'value', name: '万元', axisLabel: { fontSize: 11 } },
+    color: ['#e53935','#f57c00','#9e9e9e','#42a5f5','#66bb6a','#ab47bc','#bdbdbd'],
+    series: [
+      { name: '直播', type: 'bar', stack: 'total', barWidth: '50%', data: [7518.09], emphasis: { focus: 'series' } },
+      { name: '小店', type: 'bar', stack: 'total', barWidth: '50%', data: [4288.16], emphasis: { focus: 'series' } },
+      { name: 'CID', type: 'bar', stack: 'total', barWidth: '50%', data: [2005.85], emphasis: { focus: 'series' } },
+      { name: '品宣', type: 'bar', stack: 'total', barWidth: '50%', data: [89.15], emphasis: { focus: 'series' } },
+      { name: '加粉', type: 'bar', stack: 'total', barWidth: '50%', data: [71.30], emphasis: { focus: 'series' } },
+      { name: '直购', type: 'bar', stack: 'total', barWidth: '50%', data: [21.40], emphasis: { focus: 'series' } },
+      { name: '其他', type: 'bar', stack: 'total', barWidth: '50%', data: [0.55], emphasis: { focus: 'series' } }
+    ]
+  };
+  chart.setOption(option);
+  window.addEventListener('resize', function(){ chart.resize(); });
+})();
+
+// ========== Cust×Link horizontal stacked bar ==========
+(function(){
+  var dom = document.getElementById('chart-cust-link');
+  var chart = echarts.init(dom);
+  var option = {
+    tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+    legend: { bottom: 0, textStyle: { fontSize: 12 } },
+    grid: { left: 90, right: 40, top: 20, bottom: 40 },
+    xAxis: { type: 'value', name: '万元', axisLabel: { fontSize: 11 } },
+    yAxis: { type: 'category', data: ['贸易商', '新锐', '品牌'], axisLabel: { fontSize: 13, fontWeight: 600 } },
+    color: ['#e53935','#f57c00','#9e9e9e','#bdbdbd'],
+    series: [
+      { name: '直播', type: 'bar', stack: 'total', barWidth: '50%', data: [5549.61, 1736.44, 64.02], emphasis: { focus: 'series' }, label: { show: true, position: 'inside', fontSize: 11, formatter: function(p){ return p.value > 300 ? (p.value/10000).toFixed(2)+'亿' : p.value > 80 ? p.value.toFixed(0)+'万' : ''; } } },
+      { name: '小店', type: 'bar', stack: 'total', barWidth: '50%', data: [2439.42, 1614.20, 106.56], emphasis: { focus: 'series' }, label: { show: true, position: 'inside', fontSize: 11, formatter: function(p){ return p.value > 300 ? p.value.toFixed(0)+'万' : ''; } } },
+      { name: 'CID', type: 'bar', stack: 'total', barWidth: '50%', data: [1691.04, 251.67, 47.17], emphasis: { focus: 'series' }, label: { show: true, position: 'inside', fontSize: 11, formatter: function(p){ return p.value > 300 ? p.value.toFixed(0)+'万' : ''; } } },
+      { name: '其他', type: 'bar', stack: 'total', barWidth: '50%', data: [64.80, 12.64, 93.88], emphasis: { focus: 'series' } }
+    ]
+  };
+  chart.setOption(option);
+  window.addEventListener('resize', function(){ chart.resize(); });
+})();
+</script>
+
+</body>
+</html>

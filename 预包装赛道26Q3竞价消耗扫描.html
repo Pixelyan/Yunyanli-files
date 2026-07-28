@@ -134,7 +134,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC"
 <div class="section-title">1-1 链路分析</div>
 
 <div class="chart-box">
-  <div class="chart-title">7月QTD 链路消耗构成（万元）</div>
+  <div class="chart-title">链路消耗月度趋势：2025Q3 vs 2026Q3 QTD（万元）</div>
   <div class="chart" id="chart-link"></div>
 </div>
 
@@ -156,10 +156,10 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC"
 </table>
 </div>
 
-<div class="insight-card"><div class="ttl">直播一家独大，贡献过半消耗</div><div class="desc">直播链路 7月QTD 消耗 7,518万元，占比 53.7%，是预包装赛道绝对主力链路。贸易商直播消耗 5,550万元，占直播总量的 73.8%，是直播增长的核心驱动力。</div></div>
-<div class="insight-card"><div class="ttl">小店为第二大链路，CID 稳步增长</div><div class="desc">小店消耗 4,288万元（30.6%），其中粮油调味速食小店消耗 2,136万元，占小店总量的 49.8%；CID 消耗 2,006万元（14.3%），粮油调味速食 CID 消耗 1,320万元，是 CID 链路的主战场。</div></div>
-<div class="insight-card"><div class="ttl">冲调品直播占比极端高企</div><div class="desc">冲调品直播消耗 2,654万元，占冲调品总消耗的 80.5%，链路集中度显著高于其他子品类（休闲食品 60.4%、粮油调味速食 34.7%、宠物 34.5%），反映冲调品的用户决策高度依赖直播场景。</div></div>
-<div class="insight-card"><div class="ttl">宠物赛道小店链路主导</div><div class="desc">宠物小店消耗 481万元，占宠物总消耗的 62.0%，为四个子品类中小店占比最高的赛道，符合宠物行业以货架电商为主的消费习惯。</div></div>
+<div class="insight-card"><div class="ttl">直播链路一年间完成结构性逆袭</div><div class="desc">2025年7月直播仅占 20.5%（2,294万/11,220万），为第三大链路；2026年7月QTD直播占比飙升至 53.7%（7,518万/13,994万），超越小店成为绝对第一链路。仅 25 天消耗已超 2025年Q3整季直播消耗的 76%。</div></div>
+<div class="insight-card"><div class="ttl">小店消耗规模稳定，但份额从第一滑至第二</div><div class="desc">2025年7月小店消耗 5,240万元，占当月 46.7%；2026年7月QTD小店 4,288万元（占比 30.6%）。绝对值下降但地位仍然稳固，粮油调味速食小店消耗 2,136万元占小店总量的 49.8%，是压舱石。</div></div>
+<div class="insight-card"><div class="ttl">直购和加粉链路几乎归零，流量向直播/CID 集中</div><div class="desc">直购从 2025年7月的 1,125万元（10.0%）降至 21万元（0.2%），加粉从 367万元降至 71万元。传统货架式投放被直播和 CID 全面替代，预包装赛道链路结构正在经历剧烈重构。</div></div>
+<div class="insight-card"><div class="ttl">CID 消耗绝对值增长但份额收缩</div><div class="desc">CID 消耗从 2025年7月的 1,911万元增至 2026年7月QTD的 2,006万元，绝对值微增 5.0%，但占比从 17.0% 降至 14.3%，反映了直播增长的虹吸效应。</div></div>
 
 <!-- ====== 1-2 客群×链路 ====== -->
 <div class="section-title">1-2 客群×链路 7月QTD 消耗洞察</div>
@@ -204,6 +204,11 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC"
 
 <!-- ====== 1-3 子品类链路拆解 ====== -->
 <div class="section-title">1-3 子品类链路拆解</div>
+
+<div class="chart-box">
+  <div class="chart-title">子品类月度消耗趋势：2025Q3 vs 2026Q3 QTD（万元）</div>
+  <div class="chart" id="chart-sub-trend"></div>
+</div>
 
 <div class="tbl-wrap">
 <table class="tbl">
@@ -318,25 +323,44 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC"
 </div>
 
 <script>
-// ========== Link breakdown chart ==========
+// ========== Link 4-month trend chart ==========
 (function(){
   var dom = document.getElementById('chart-link');
   var chart = echarts.init(dom);
   var option = {
     tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
     legend: { bottom: 0, textStyle: { fontSize: 12 } },
-    grid: { left: 60, right: 40, top: 30, bottom: 40 },
-    xAxis: { type: 'category', data: ['7月QTD'], axisLabel: { fontSize: 12 } },
+    grid: { left: 60, right: 40, top: 30, bottom: 45 },
+    xAxis: { type: 'category', data: ['2025.7', '2025.8', '2025.9', '2026.7QTD(25天)'], axisLabel: { fontSize: 11 } },
     yAxis: { type: 'value', name: '万元', axisLabel: { fontSize: 11 } },
-    color: ['#e53935','#f57c00','#9e9e9e','#42a5f5','#66bb6a','#ab47bc','#bdbdbd'],
+    color: ['#e53935','#f57c00','#9e9e9e','#bdbdbd'],
     series: [
-      { name: '直播', type: 'bar', stack: 'total', barWidth: '50%', data: [7518.09], emphasis: { focus: 'series' } },
-      { name: '小店', type: 'bar', stack: 'total', barWidth: '50%', data: [4288.16], emphasis: { focus: 'series' } },
-      { name: 'CID', type: 'bar', stack: 'total', barWidth: '50%', data: [2005.85], emphasis: { focus: 'series' } },
-      { name: '品宣', type: 'bar', stack: 'total', barWidth: '50%', data: [89.15], emphasis: { focus: 'series' } },
-      { name: '加粉', type: 'bar', stack: 'total', barWidth: '50%', data: [71.30], emphasis: { focus: 'series' } },
-      { name: '直购', type: 'bar', stack: 'total', barWidth: '50%', data: [21.40], emphasis: { focus: 'series' } },
-      { name: '其他', type: 'bar', stack: 'total', barWidth: '50%', data: [0.55], emphasis: { focus: 'series' } }
+      { name: '直播', type: 'bar', stack: 'total', barWidth: '50%', data: [2294.35, 3297.97, 4234.37, 7518.09], emphasis: { focus: 'series' } },
+      { name: '小店', type: 'bar', stack: 'total', barWidth: '50%', data: [5240.06, 3594.15, 2686.08, 4288.16], emphasis: { focus: 'series' } },
+      { name: 'CID', type: 'bar', stack: 'total', barWidth: '50%', data: [1910.84, 1556.60, 3722.48, 2005.85], emphasis: { focus: 'series' } },
+      { name: '其他', type: 'bar', stack: 'total', barWidth: '50%', data: [1774.50, 1761.16, 509.24, 182.39], emphasis: { focus: 'series' } }
+    ]
+  };
+  chart.setOption(option);
+  window.addEventListener('resize', function(){ chart.resize(); });
+})();
+
+// ========== 子品类月度趋势 ==========
+(function(){
+  var dom = document.getElementById('chart-sub-trend');
+  var chart = echarts.init(dom);
+  var option = {
+    tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+    legend: { bottom: 0, textStyle: { fontSize: 12 } },
+    grid: { left: 60, right: 40, top: 30, bottom: 45 },
+    xAxis: { type: 'category', data: ['2025.7', '2025.8', '2025.9', '2026.7QTD(25天)'], axisLabel: { fontSize: 11 } },
+    yAxis: { type: 'value', name: '万元', axisLabel: { fontSize: 11 } },
+    color: ['#e53935','#1565c0','#2e7d32','#e65100'],
+    series: [
+      { name: '休闲食品', type: 'bar', stack: 'total', barWidth: '50%', data: [4767.57, 3059.53, 4042.11, 4488.99], emphasis: { focus: 'series' } },
+      { name: '冲调品', type: 'bar', stack: 'total', barWidth: '50%', data: [863.88, 1079.27, 873.00, 3297.43], emphasis: { focus: 'series' } },
+      { name: '宠物', type: 'bar', stack: 'total', barWidth: '50%', data: [509.18, 485.08, 401.31, 775.97], emphasis: { focus: 'series' } },
+      { name: '粮油调味速食', type: 'bar', stack: 'total', barWidth: '50%', data: [5079.13, 5586.02, 5835.77, 5432.11], emphasis: { focus: 'series' } }
     ]
   };
   chart.setOption(option);

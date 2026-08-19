@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>休闲食品 × 美团闪购 联合营销合作模式 & 腾讯营销赋能方案</title>
+<style>
+  :root{
+    --tx:#0052D9; --tx-deep:#003A9E; --tx-light:#E8F0FF;
+    --mt:#FFB800; --mt-deep:#8a5a00;
+    --wx:#07C160; --wx-deep:#046b36;
+    --ink:#1a1a1a; --ink2:#555; --ink3:#888;
+    --line:#e8e8ea; --bg:#f5f6f8; --card:#ffffff;
+    --red:#E24B4A;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.75;font-size:14px;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:960px;margin:0 auto;padding:36px 24px 80px;}
+
+  .hero{background:linear-gradient(135deg,#003A9E,#0052D9);border-radius:18px;padding:36px 40px;color:#fff;position:relative;overflow:hidden;}
+  .hero .tag{display:inline-block;font-size:12px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);
+    padding:3px 12px;border-radius:20px;letter-spacing:.5px;margin-bottom:16px;}
+  .hero h1{font-size:26px;font-weight:600;line-height:1.4;margin-bottom:10px;}
+  .hero p{font-size:14px;opacity:.92;max-width:720px;}
+  .hero .meta{margin-top:18px;font-size:12px;opacity:.75;}
+
+  section{margin-top:34px;}
+  h2{font-size:19px;font-weight:600;display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+  h2 .num{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:8px;
+    background:var(--tx);color:#fff;font-size:14px;font-weight:600;flex-shrink:0;}
+  .sub{color:var(--ink2);font-size:13px;margin-bottom:18px;}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin-bottom:14px;}
+  .card h3{font-size:16px;font-weight:600;margin-bottom:8px;}
+
+  /* 阶梯 */
+  .ladder{position:relative;}
+  .step{display:flex;gap:16px;background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:18px 20px;margin-bottom:12px;position:relative;}
+  .step .badge{flex-shrink:0;width:52px;height:52px;border-radius:12px;color:#fff;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;font-weight:600;line-height:1.15;}
+  .step .badge .lv{font-size:16px;}
+  .step .badge .lb{font-size:10px;opacity:.85;font-weight:400;}
+  .step .body{flex:1;}
+  .step .body .t{font-size:15px;font-weight:600;margin-bottom:3px;}
+  .step .body .d{font-size:13px;color:var(--ink2);margin-bottom:8px;}
+  .step .row{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:12.5px;color:var(--ink2);margin-bottom:8px;}
+  .step .row b{color:var(--ink);font-weight:600;}
+  .step .case{font-size:12.5px;color:var(--tx-deep);background:var(--tx-light);border-radius:8px;
+    padding:7px 12px;display:inline-block;}
+
+  .logic{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  .logic .li{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;text-align:center;}
+  .logic .li .ic{font-size:22px;margin-bottom:8px;}
+  .logic .li .k{font-weight:600;margin-bottom:4px;}
+  .logic .li .v{font-size:12.5px;color:var(--ink2);}
+
+  .pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#fff;
+    padding:3px 12px;border-radius:20px;margin-right:8px;margin-bottom:6px;}
+  .pill.tx{background:var(--tx);} .pill.mt{background:var(--mt);color:#5c3d00;} .pill.wx{background:var(--wx);}
+
+  .cap-list{list-style:none;}
+  .cap-list li{padding:11px 0;border-bottom:1px dashed var(--line);font-size:13.5px;}
+  .cap-list li:last-child{border-bottom:none;}
+  .cap-list li b{color:var(--tx-deep);}
+
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);}
+  th,td{border:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top;}
+  th{background:var(--tx-light);color:var(--tx-deep);font-weight:600;white-space:nowrap;}
+  td b{color:var(--ink);}
+
+  .callout{background:#fff8e6;border:1px solid #f0d98c;border-radius:12px;padding:16px 18px;font-size:13.5px;margin-top:12px;}
+  .callout b{color:#8a5a00;}
+
+  .footer{margin-top:40px;font-size:12px;color:var(--ink3);border-top:1px solid var(--line);padding-top:16px;}
+  .footer a{color:var(--tx);text-decoration:none;}
+
+  @media(max-width:640px){
+    .logic{grid-template-columns:1fr;}
+    .step{flex-direction:column;}
+    table{font-size:12px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <span class="tag">休闲食品 · 即时零售 · 联合营销</span>
+    <h1>休闲食品 × 美团闪购：联合营销合作模式（从浅入深）<br>暨 腾讯营销赋能方案</h1>
+    <p>梳理休闲食品品牌与美团闪购"由浅入深"的七级合作阶梯，并在此基础上，提出腾讯营销如何通过「纯美腾计划 + 五大赋能能力」两个抓手，为品牌方、渠道方与平台补上"站外种草—私域沉淀—内容 IP 联动"的关键一环。</p>
+    <div class="meta">整理日期：2026-08-19 ｜ 依据美团闪购、腾讯广告官方及行业公开报道整理</div>
+  </div>
+
+  <!-- 一、摘要 -->
+  <section>
+    <h2><span class="num">1</span>核心结论（一页速览）</h2>
+    <div class="sub">先看三句话，再看细节。</div>
+    <div class="card">
+      <div class="cap-list">
+        <li><b>① 合作本质是"三级跳"：</b>休闲食品与美团闪购的合作，正从「卖货」→「做场景」→「融生态」演进；越深入，平台资源倾斜越大，但品牌能沉淀的人群/数据资产也越多。</li>
+        <li><b>② 美团闪购的天然短板是"人群沉淀"：</b>闪购强在「即时履约+站内转化」，弱在「站外种草」与「用户资产沉淀」（用户下单即走，品牌难做二次触达）。</li>
+        <li><b>③ 腾讯营销的机会点是"美腾计划 + 五大能力"：</b>腾讯广告 × 美团已共建 8 年的官方合作（三大模式：品牌 big day / 目标人群打透 / 节点联投红利），叠加腾讯独有的「私域承接 + 内容 IP 联名 + 到店打卡」能力，是把「三方联投」升级为「四方协同」的关键杠杆。</li>
+      </div>
+    </div>
+  </section>
+
+  <!-- 二、七级阶梯 -->
+  <section>
+    <h2><span class="num">2</span>从浅入深的七级合作阶梯</h2>
+    <div class="sub">颜色由浅到深代表合作深度由浅入深；每一级都标注「品牌方投入 / 平台方提供 / 代表案例」。</div>
+    <div class="ladder">
+
+      <div class="step" style="border-left:4px solid #B5D4F4;">
+        <div class="badge" style="background:#85B7EB;"><span class="lv">L1</span><span class="lb">入驻铺货</span></div>
+        <div class="body">
+          <div class="t">基础入驻 · 商品上翻</div>
+          <div class="d">品牌门店/货盘上翻入驻，接美团 30 分钟履约，用「牵牛花 / 品牌通」做日常数字化经营。</div>
+          <div class="row"><span><b>品牌投入：</b>门店货盘 + 基础运营</span><span><b>平台提供：</b>履约 + 基础流量</span></div>
+          <span class="case">案例：白象香菜面（从"有需求无供给"到小商家自发铺货、品牌重点铺货）</span>
+        </div>
+      </div>
+
+      <div class="step" style="border-left:4px solid #85B7EB;">
+        <div class="badge" style="background:#5AA0E8;"><span class="lv">L2</span><span class="lb">节点促销</span></div>
+        <div class="body">
+          <div class="t">节点爆发 · 神价日 / 超级品牌日</div>
+          <div class="d">借「神价日」（日-周-月爆品体系，小包规为主）、「超级品牌日」及 618/双11 大促资源位做脉冲式增长。</div>
+          <div class="row"><span><b>品牌投入：</b>爆品好价 + 库存 + 券权益</span><span><b>平台提供：</b>首页/频道/信息流资源位 + 选品数据 + 城市团队</span></div>
+          <span class="case">案例：百果园×神价日（妃子笑荔枝）；华为超级品牌日销售额周环比 +1650%</span>
+        </div>
+      </div>
+
+      <div class="step" style="border-left:4px solid #378ADD;">
+        <div class="badge" style="background:#378ADD;"><span class="lv">L3</span><span class="lb">场景营销</span></div>
+        <div class="body">
+          <div class="t">场景找增量 · 五大场景</div>
+          <div class="d">围绕「餐后 / 出行 / 赠礼 / 欢聚 / 下午茶」五大场景，做"场景洞察→选品→场景化内容→站内承接"。</div>
+          <div class="row"><span><b>品牌投入：</b>贴合场景货盘 + 权益 + 内容</span><span><b>平台提供：</b>场景流量入口 + 人群洞察 + 跨生态协同（外卖/到店/果切）</span></div>
+          <span class="case">案例：德芙×美团果切（下午茶套餐）；康师傅「深夜面馆」IP（夜宵场景）</span>
+        </div>
+      </div>
+
+      <div class="step" style="border-left:4px solid #1E6FD6;">
+        <div class="badge" style="background:#1E6FD6;"><span class="lv">L4</span><span class="lb">超级CP日</span></div>
+        <div class="body">
+          <div class="t">跨界联名 · 组 CP 上新</div>
+          <div class="d">零食品牌 × 高频品牌（茶饮/餐饮）联名开发新品，用对方门店与客群做渗透，闪购会场承接即时转化。</div>
+          <div class="row"><span><b>品牌投入：</b>联名新品开发 + 供给</span><span><b>CP 方提供：</b>门店渠道 + 主题门店/快闪 + 客群</span><span><b>平台提供：</b>超级CP会场资源位 + 履约</span></div>
+          <span class="case">案例：浪味仙×益禾堂（黄瓜味螺旋薯卷 + 薄荷奶绿，6000+ 门店下午茶套餐）</span>
+        </div>
+      </div>
+
+      <div class="step" style="border-left:4px solid #0B53B0;">
+        <div class="badge" style="background:#0B53B0;"><span class="lv">L5</span><span class="lb">三方联投</span></div>
+        <div class="body">
+          <div class="t">三方协同联投 · 平台×品牌×渠道</div>
+          <div class="d">品牌 + 渠道各投专项预算，用闪购外投工具投放站外（抖音/小红书/百度/朋友圈/KOL），平台叠加 1:1 追投，打通"站外种草→站内承接→线下协同"。</div>
+          <div class="row"><span><b>品牌投入：</b>专项预算 + 货盘</span><span><b>渠道投入：</b>预算 + 门店触点 + 客流</span><span><b>平台提供：</b>外投工具 + 1:1 追投 + 站内资源 + 数据沉淀</span></div>
+          <span class="case">案例：玛氏×零食有鸣圣诞品牌周（ROI&gt;5、百万 GMV、组包贡献超 10% GMV）</span>
+        </div>
+      </div>
+
+      <div class="step" style="border-left:4px solid #003A9E;">
+        <div class="badge" style="background:#003A9E;"><span class="lv">L6</span><span class="lb">供给创新</span></div>
+        <div class="body">
+          <div class="t">新品首发 / 组包 / 闪电仓</div>
+          <div class="d">「闪耀街区」做新品蜂窝级精准铺货，智慧分销(F)指导"以需定供"，组包定制提客单，品牌官旗闪电仓做前置仓。</div>
+          <div class="row"><span><b>品牌投入：</b>新品 + 供给 / 仓配</span><span><b>平台提供：</b>蜂窝需求分析 + 定向铺货 + 前置仓</span></div>
+          <span class="case">案例：乐事裸米饼×闪耀街区（铺货率 50%、交易用户日均环比 +52%）；康师傅"合麵"闪电仓首发</span>
+        </div>
+      </div>
+
+      <div class="step" style="border-left:4px solid #001F5C;">
+        <div class="badge" style="background:#001F5C;"><span class="lv">L7</span><span class="lb">战略合作</span></div>
+        <div class="body">
+          <div class="t">全品牌战略 · 生态共建</div>
+          <div class="d">全品牌签署战略协议，约定多年销售目标，共建正品联盟 / 品牌官旗闪电仓等生态能力。</div>
+          <div class="row"><span><b>品牌投入：</b>全品牌资源 + 长期承诺</span><span><b>平台提供：</b>资源倾斜 + 数据 + 联合产品创新</span></div>
+          <span class="case">案例：雀巢九大业务战略合作（3 年 20 亿目标）；康师傅（方便速食唯一"金闪奖"）</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 三、底层逻辑 -->
+  <section>
+    <h2><span class="num">3</span>从浅入深的底层逻辑</h2>
+    <div class="sub">三个可复用的判断，帮品牌决定"投多深"。</div>
+    <div class="logic">
+      <div class="li"><div class="ic">📈</div><div class="k">卖货 → 做场景 → 融生态</div><div class="v">从"把货搬上平台"到"把货搬进用户的具体生活场景"，再到与平台共建供给与生态。</div></div>
+      <div class="li"><div class="ic">⚖️</div><div class="k">投入越大，倾斜越大</div><div class="v">品牌在预算、货盘、门店联动上投入越深，平台的追投、资源位、数据支持通常越强。</div></div>
+      <div class="li"><div class="ic">🏦</div><div class="k">从"即时转化"到"资产沉淀"</div><div class="v">浅层合作只换来一次性销量；深层合作才能沉淀人群与数据资产——这正是腾讯能补上的短板。</div></div>
+    </div>
+  </section>
+
+  <!-- 四、腾讯营销赋能 -->
+  <section>
+    <h2><span class="num">4</span>腾讯营销赋能方向：两大抓手</h2>
+    <div class="sub">一块是「纯美腾计划」，直接承接腾讯广告 × 美团的官方合作玩法；另一块是腾讯可提供的「五大赋能能力」，补上美腾计划之外、美团站内给不了的增量能力（其中私域承接与内容 IP 为重点）。</div>
+
+    <!-- 4.1 纯美腾计划 -->
+    <div class="card" style="border-left:4px solid var(--tx);">
+      <h3 style="color:var(--tx-deep);">抓手一 · 纯美腾计划（腾讯广告 × 美团官方合作）</h3>
+      <p style="font-size:13.5px;margin-bottom:6px;">把腾讯全域流量（微信朋友圈 / 公众号 / 视频号 / 搜一搜 + 腾讯视频 / 新闻 / QQ / 音乐）与美团 30 分钟即时履约打通，做「站外种草 → 一键跳站内承接 → 数据回流」的品效闭环。已共建 8 年，2023 年消耗提升 16 倍、合作商家增长超 24 倍。按「千牌千面」的诉求，分三个合作模式：</p>
+
+      <table style="margin-top:12px;">
+        <tr><th style="width:120px;">合作模式</th><th>机制 / 品牌要做什么</th><th>代表案例</th></tr>
+        <tr>
+          <td><b>模式一<br>营销资源定制</b><br><span style="color:var(--ink3);">品牌 big day</span></td>
+          <td>在品牌自有节点 / 营销大动作 / 社会大事件时，定制明星代言与创新玩法，整合腾讯千万量级资源位（视频 / 体育 / 新闻开屏首页）+ 美团站内开屏首页承接，声量与销量同步爆发。</td>
+          <td>蒙牛奥运首金「为中国举杯」：当日销售额同比 +70%，特仑苏单日破 1 万箱、冰品单日 10 万单。</td>
+        </tr>
+        <tr>
+          <td><b>模式二<br>站内外流量高效组合</b><br><span style="color:var(--ink3);">目标人群打透</span></td>
+          <td>双方数据互通：站外腾讯广告引流目标人群 × 站内美团兴趣人群标签互认，精准圈选后霸屏 QQ 音乐 / 腾讯视频等场域，引流进美团站内多点位承接。</td>
+          <td>某度假区联投：门店种草人群 +36.9%、访问人群 +25.9%。</td>
+        </tr>
+        <tr>
+          <td><b>模式三<br>节点联合投放</b><br><span style="color:var(--ink3);">节点联投红利</span></td>
+          <td>在高势能节点（中秋 / 春节 / 618 等），平台政策激励补贴 + 品牌对投，用补贴抬高 ROI，抢占即时需求窗口。</td>
+          <td>中秋七品牌抢跑：雀巢 / 双汇 CTR 10%、ROI 近 4；伊利 / 蒙牛 / 福临门 / 金龙鱼 / 洋河 ROI 最高破 15。</td>
+        </tr>
+      </table>
+      <div class="callout"><b>对休闲食品的意义：</b>三种模式正好对应品牌的三类诉求——大节点要<b>声量爆发</b>（模式一）、平日要<b>精准获客</b>（模式二）、促销期要<b>ROI 兑现</b>（模式三），可组合使用。</div>
+    </div>
+
+    <!-- 4.2 五大赋能能力 -->
+    <h3 style="font-size:15px;margin:24px 0 6px;">抓手二 · 腾讯可提供的五大赋能能力</h3>
+    <p style="font-size:13px;color:var(--ink2);margin-bottom:14px;">在「把流量导进美团站内」的美腾计划之外，腾讯还能为品牌 / 渠道 / 平台补上站内给不了的能力：</p>
+
+    <div class="card" style="border-left:4px solid #B5D4F4;">
+      <h3>① 站外全域种草（流量蓄水池）</h3>
+      <p style="font-size:13.5px;color:var(--ink2);">朋友圈、视频号、公众号、搜一搜 + 腾讯视频 / 新闻 / QQ / 音乐，补齐美团"店找人"随机消费的种草短板，直击休闲食品"冲动下单"的获客场景。</p>
+    </div>
+
+    <div class="card" style="border-left:4px solid #B5D4F4;">
+      <h3>② 数据能力共建</h3>
+      <p style="font-size:13.5px;color:var(--ink2);">腾讯广告如翼（5R 人群资产）+ 美团经营数据，做 O2O 人群圈选、R0 机会人群与全域归因，让「站外种草」到「站内成交」的每一步可度量。</p>
+    </div>
+
+    <div class="card" style="border-left:4px solid var(--wx);">
+      <h3 style="color:var(--wx-deep);">③ 私域承接（补美团短板）—— 路径怎么走？</h3>
+      <p style="font-size:13.5px;margin-bottom:10px;">闪购是「封闭交易场」：用户下单即走，品牌在站内拿不到联系方式、无法二次触达。私域承接的核心，是用一个「钩子」（券 / 积分 / 内容 / 服务）把闪购内的一次性交易用户，引到腾讯域（企微 / 社群 / 小程序 / 公众号 / 视频号）沉淀，再反哺复购。四条路径：</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;">
+        <div style="background:var(--bg);border-radius:10px;padding:12px 14px;">
+          <div style="font-weight:600;font-size:13px;color:var(--wx-deep);margin-bottom:4px;">路径① 实物承接（O2O 最主流）</div>
+          <div style="font-size:12.5px;color:var(--ink2);line-height:1.7;">包裹 / 包装 / 小票印「企微活码 + 小程序码」→ 扫码领券 / 抽奖 / 晒单 → 加企微 → 进社群 → 领会员。绕过"站内不让放外链"的限制，用"实物触达"承接用户。</div>
+        </div>
+        <div style="background:var(--bg);border-radius:10px;padding:12px 14px;">
+          <div style="font-weight:600;font-size:13px;color:var(--wx-deep);margin-bottom:4px;">路径② 到店承接</div>
+          <div style="font-size:12.5px;color:var(--ink2);line-height:1.7;">闪购"到店自提" + 渠道门店 → 收银台 / 货架 / 店员引导扫码 → 加企微 / 进会员。</div>
+        </div>
+        <div style="background:var(--bg);border-radius:10px;padding:12px 14px;">
+          <div style="font-weight:600;font-size:13px;color:var(--wx-deep);margin-bottom:4px;">路径③ 内容场承接</div>
+          <div style="font-size:12.5px;color:var(--ink2);line-height:1.7;">视频号 / 朋友圈 / 达人种草时直接引导「关注 + 加企微 + 领小程序券」→ 先沉淀私域 → 私域一键跳转闪购复购。</div>
+        </div>
+        <div style="background:var(--bg);border-radius:10px;padding:12px 14px;">
+          <div style="font-weight:600;font-size:13px;color:var(--wx-deep);margin-bottom:4px;">路径④ 会员体系承接</div>
+          <div style="font-size:12.5px;color:var(--ink2);line-height:1.7;">品牌小程序承载会员，会员权益与闪购联动（闪购下单享会员价 / 积分互通）→ 把"交易记录"升级为"会员关系"。</div>
+        </div>
+      </div>
+      <div style="font-size:13px;background:#eafaf1;border:1px solid #b7ebcf;border-radius:10px;padding:12px 14px;margin-top:12px;">
+        <b style="color:var(--wx-deep);">形成闭环：</b>闪购获客 → 私域沉淀（企微 / 社群 / 小程序）→ 二次触达（发券 / 新品 / 直播预告）→ 一键跳转闪购复购，破解"用户即走"难题。
+      </div>
+    </div>
+
+    <div class="card" style="border-left:4px solid var(--tx);">
+      <h3 style="color:var(--tx-deep);">④ 内容 IP 与达人（重点能力，三层递进）</h3>
+      <ol style="margin-left:20px;font-size:13.5px;color:var(--ink2);">
+        <li style="margin-bottom:8px;"><b style="color:var(--ink);">内容种草 · 触发场景需求：</b>视频号互选达人种草 + 视频号直播 + 腾讯视频 IP（电影 / 综艺 / 动漫），用内容把「夜宵 / 下午茶 / 出行」等场景需求唤醒。</li>
+        <li style="margin-bottom:8px;"><b style="color:var(--ink);">IP 联名合作赋能（腾讯自有 IP）：</b>腾讯自有 IP 授权给休闲食品做联名——IP 形象包装联名、限定款、IP 主题货架、IP 互动素材，借 IP 的情感号召力把「内容热度」直接转成「商品销量」。可用的腾讯自有 IP：<b>游戏</b>（王者荣耀 / 和平精英 / QQ 飞车 / 穿越火线）、<b>动漫</b>（斗罗大陆 / 一人之下 / 狐妖小红娘 / 全职高手）、<b>形象</b>（QQ family / 微信表情）。<span style="color:var(--tx-deep);">案例：和平精英 × 王小卤（"大吉大利今晚吃鸡爪"虎皮凤爪联名礼盒，累计热销超 1 亿袋）；王者荣耀 × 三只松鼠（"有团就有聚"联名坚果年货礼包）</span></li>
+        <li><b style="color:var(--ink);">IP 落地渠道 · 号召到店打卡：</b>IP 不止做线上种草，还「落地」到美团闪购的渠道门店 / 主题门店 / 快闪——IP 形象打卡装置 + 限定周边 + 晒单 / 集章机制，号召用户「线上种草 → 到店打卡 → 拍照晒单 → 二次传播」，把 IP 流量反哺成渠道门店的到店客流，形成 O2O 联动闭环。<span style="color:var(--tx-deep);">案例：和平精英 × 哈根达斯（联名甜筒 + 全国 400 余家门店 + 沪杭宁深四城主题门店）</span></li>
+      </ol>
+    </div>
+
+    <div class="card" style="border-left:4px solid #B5D4F4;">
+      <h3>⑤ AI 提效</h3>
+      <p style="font-size:13.5px;color:var(--ink2);">妙思（AIGC 创意）、妙播（7×24h AI 直播）、新投放 3.0 系统，降低投放门槛、放大素材产能，让中小休闲食品品牌也能低成本开跑美腾计划。</p>
+    </div>
+  </section>
+
+  <!-- 五、组合打法与案例 -->
+  <section>
+    <h2><span class="num">5</span>可落地的组合打法 + 标杆案例</h2>
+    <div class="sub">核心思路：把 L5「三方协同联投」升级为「四方协同」。</div>
+
+    <div class="card">
+      <h3>四方协同模型：品牌 × 渠道 × 美团闪购 × 腾讯营销</h3>
+      <table>
+        <tr><th style="width:90px;">角色</th><th>提供什么</th><th>换取什么</th></tr>
+        <tr><td><b>品牌方</b></td><td>货盘、专项预算、权益、联名/新品</td><td>全域声量 + 即时销量 + 人群资产</td></tr>
+        <tr><td><b>渠道方</b></td><td>门店触点、到店客流、专项预算</td><td>订单增量 + 私域会员</td></tr>
+        <tr><td><b>美团闪购</b></td><td>站内资源、履约、外投工具、追投激励</td><td>GMV 与站外新客</td></tr>
+        <tr><td><b style="color:var(--tx-deep);">腾讯营销</b></td><td>微信全域流量、视频号/达人、私域工具、如翼数据、内容 IP 联名 + 到店打卡</td><td>广告消耗 + 品牌营销预算</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>标杆案例① 湾仔码头 × 美腾计划（"从心到手"）</h3>
+      <p style="font-size:13.5px;">借电影《水饺皇后》（讲述湾仔码头创始人臧健和的真实故事）上映热度，在腾讯视频做映前广告 + 信息流精准触达电影观众与美食高潜人群，激活"看《水饺皇后》、吃湾仔码头"的场景需求，再通过腾讯广告与美团闪购协同，一键跳转站内会场完成即时承接——这是美腾计划「内容种草 → 即时承接」的标杆打法。<span style="color:var(--tx-deep);">注：此处《水饺皇后》是<b>内容种草素材</b>（腾讯视频作为触达平台），与上方「腾讯自有 IP 授权联名」（和平精英/王者荣耀等）是两种不同的赋能方式。</span></p>
+    </div>
+
+    <div class="card">
+      <h3>标杆案例② 蒙牛 × 腾讯 × 美团（奥运首金）</h3>
+      <p style="font-size:13.5px;">蒙牛借奥运"首金"热度，在美团站内打造专属直播间，腾讯生态广告为直播间引流，实现集团当日销售额同比 +70%，创当月站内销售峰值。</p>
+    </div>
+
+    <div class="card">
+      <h3>标杆案例③ 和平精英 × 王小卤（腾讯自有游戏 IP × 卤味零食）</h3>
+      <p style="font-size:13.5px;">腾讯自研国民游戏 IP「和平精英」与卤味零食领导品牌王小卤跨界联名，推出"大吉大利今晚吃鸡爪"虎皮凤爪新春限定礼盒（王小卤虎皮凤爪累计热销超 1 亿袋）。打法：游戏 IP 授权做包装联名 + 限定礼盒，在腾讯域（朋友圈 / 视频号 / 游戏内）种草后，联名商品同步铺进美团闪购的零食店与便利店渠道，用"游戏玩家 + 零食场景"的精准人群做即时转化；还可延伸至主题门店打卡、限定周边晒单的 O2O 玩法，把 IP 流量反哺成渠道到店客流。</p>
+    </div>
+
+    <div class="card">
+      <h3>给休闲食品品牌的可复用打法</h3>
+      <p style="font-size:13.5px;margin-bottom:6px;"><b>场景种草 → 即时承接 → 私域沉淀：</b></p>
+      <ol style="margin-left:20px;font-size:13.5px;color:var(--ink2);">
+        <li>腾讯域内（视频号/朋友圈/达人）围绕「夜宵/下午茶/出行」场景种草；</li>
+        <li>广告一键跳转美团闪购会场/门店完成 30 分钟履约；</li>
+        <li>用企业微信 + 小程序把下单用户沉淀为品牌私域会员，反哺二次触达与复购，破解闪购"用户即走"难题。</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 六、赋能清单 -->
+  <section>
+    <h2><span class="num">6</span>腾讯营销赋能清单（按对象）</h2>
+    <table>
+      <tr><th style="width:130px;">赋能对象</th><th>腾讯能帮上什么</th></tr>
+      <tr><td><b>品牌方</b></td><td>站外全域种草、私域人群沉淀（企业微信/小程序）、如翼数据洞察与归因、腾讯视频 IP 内容 + IP 联名授权、视频号达人/直播、IP 落地渠道到店打卡。</td></tr>
+      <tr><td><b>渠道方</b>（零食店等）</td><td>门店私域运营、视频号直播带货、会员体系沉淀、IP 落地到店打卡引流，把到店客流变成可触达的数字资产。</td></tr>
+      <tr><td><b>美团闪购</b></td><td>腾讯 13 亿+ 微信流量蓄水池、数据共建提升站外引流效率、补足种草与私域闭环。</td></tr>
+      <tr><td><b>四方协同</b></td><td>把"品牌×渠道×美团"三方联投升级为"四方协同"，让预算投出「种草—转化—沉淀」的完整闭环。</td></tr>
+    </table>
+  </section>
+
+  <div class="footer">
+    <p>说明：本方案基于美团闪购商家中心、腾讯广告官网（e.qq.com）、美团新闻中心及主流财经媒体报道整理，数据与案例均来自公开披露；其中精确的追投比例、返点、坑位费等商务条款为签约双方保密，需与平台商务一对一洽谈。合作模式层级为本文件归纳的框架，非美团官方固定分级。</p>
+  </div>
+
+</div>
+</body>
+</html>
